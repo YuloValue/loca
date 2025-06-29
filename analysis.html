@@ -88,18 +88,25 @@
         document.getElementById("summary").textContent = data.summary;
         document.getElementById("einschaetzung").textContent = data.einschaetzung;
 
-        if (Array.isArray(data.statistik)) {
-          const table = document.createElement("table");
-          table.innerHTML = "<tr><th>Kategorie</th><th>Wert</th></tr>";
+        // 💡 Statistik als JSON-String manuell parsen
+        try {
+          const statistikArray = JSON.parse(data.statistikRaw);
+          if (Array.isArray(statistikArray)) {
+            const table = document.createElement("table");
+            table.innerHTML = "<tr><th>Kategorie</th><th>Wert</th></tr>";
 
-          data.statistik.forEach(entry => {
-            const row = document.createElement("tr");
-            row.innerHTML = `<td>${entry.Kategorie}</td><td>${entry.Wert}</td>`;
-            table.appendChild(row);
-          });
+            statistikArray.forEach(entry => {
+              const row = document.createElement("tr");
+              row.innerHTML = `<td>${entry.Kategorie}</td><td>${entry.Wert}</td>`;
+              table.appendChild(row);
+            });
 
-          document.getElementById("statistik").appendChild(table);
+            document.getElementById("statistik").appendChild(table);
+          }
+        } catch (e) {
+          console.error("Fehler beim Parsen der Statistik:", e);
         }
+
       } catch (error) {
         document.getElementById("headline").textContent = "Fehler bei der Analyse.";
         document.getElementById("score").textContent = "-";

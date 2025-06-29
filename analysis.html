@@ -119,7 +119,7 @@
       <a href="pricing.html">Pricing</a>
       <a href="about.html">About Us</a>
       <a href="profile.html">Profile</a>
-      <a href="login.html">Login</a>
+      <a href="login.html" id="login-link">Login</a>
     </div>
   </header>
 
@@ -130,15 +130,15 @@
     </div>
 
     <script>
-    fetch("https://hook.eu2.make.com/redff9tmx42d4qq0fkrp372w46ir8ml7/output")
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById("analysis-result").textContent = data.choices?.[0]?.message?.content || "No response received.";
-      })
-      .catch(error => {
-        document.getElementById("analysis-result").textContent = "Error loading analysis.";
-        console.error(error);
-      });
+      fetch("https://hook.eu2.make.com/redff9tmx42d4qq0fkrp372w46ir8ml7/output")
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("analysis-result").textContent = data.choices?.[0]?.message?.content || "No response received.";
+        })
+        .catch(error => {
+          document.getElementById("analysis-result").textContent = "Error loading analysis.";
+          console.error(error);
+        });
     </script>
 
     <section>
@@ -191,5 +191,42 @@
     <a href="terms">Terms & Conditions</a>
     <a href="privacy">Privacy Policy</a>
   </footer>
+
+  <!-- Login-Status Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+      const loginLink = document.querySelector("a[href='login.html']");
+      const profileLink = document.querySelector("a[href='profile.html']");
+
+      if (isLoggedIn) {
+        if (loginLink) {
+          loginLink.textContent = "Logout";
+          loginLink.href = "#";
+          loginLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            localStorage.removeItem("isLoggedIn");
+            window.location.href = "index.html";
+          });
+        }
+      } else {
+        if (profileLink) {
+          profileLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = "login.html";
+          });
+        }
+      }
+
+      document.querySelectorAll(".upgrade-button").forEach((btn) => {
+        if (!isLoggedIn) {
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = "login.html";
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>

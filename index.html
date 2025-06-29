@@ -118,8 +118,10 @@
         });
 
         if (response.ok) {
-          window.location.href = `analysis.html?address=${encodeURIComponent(address)}&projectType=${encodeURIComponent(projectType)}`;
-        } else {
+  const result = await response.json(); // 1. Antwort auslesen
+  localStorage.setItem("analysisData", JSON.stringify(result)); // 2. Speichern
+  window.location.href = "analysis.html"; // 3. Weiterleiten
+} else {
           alert("Fehler bei der Analyse: " + response.statusText);
         }
       } catch (err) {

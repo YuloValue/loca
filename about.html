@@ -1,34 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-
-    const loginLink = document.querySelector("a[href='login.html']");
-    const profileLink = document.querySelector("a[href='profile.html']");
-
-    if (isLoggedIn) {
-      if (loginLink) {
-        loginLink.textContent = "Logout";
-        loginLink.href = "#";
-        loginLink.addEventListener("click", (e) => {
-          e.preventDefault();
-          localStorage.removeItem("isLoggedIn");
-          window.location.href = "index.html";
-        });
-      }
-    } else {
-      if (profileLink) {
-        profileLink.addEventListener("click", (e) => {
-          e.preventDefault();
-          window.location.href = "login.html";
-        });
-      }
-    }
-  });
-</script>
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Loca – About Us</title>
@@ -121,43 +93,6 @@
       text-decoration: none;
     }
   </style>
-  <script>
-    // Check login status
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-
-    // Beim Laden Seite: Menü anpassen
-    window.addEventListener("DOMContentLoaded", () => {
-      const loginLink = document.querySelector("a[href='/login.html']");
-      const profileLink = document.querySelector("a[href='/profile.html']");
-
-      if (isLoggedIn) {
-        if (loginLink) loginLink.textContent = "Logout";
-        if (loginLink) loginLink.href = "#";
-        if (loginLink) loginLink.addEventListener("click", () => {
-          localStorage.removeItem("isLoggedIn");
-          window.location.href = "/";
-        });
-      } else {
-        if (profileLink) {
-          profileLink.addEventListener("click", (e) => {
-            e.preventDefault();
-            window.location.href = "/login.html";
-          });
-        }
-      }
-
-      // Upgrade Buttons: Wenn nicht eingeloggt → Login-Seite
-      document.querySelectorAll(".upgrade-button").forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-          if (!isLoggedIn) {
-            e.preventDefault();
-            window.location.href = "/login.html";
-          }
-        });
-      });
-    });
-  </script>
-
 </head>
 <body>
   <header>
@@ -167,7 +102,7 @@
       <a href="pricing.html">Pricing</a>
       <a href="about.html">About Us</a>
       <a href="profile.html">Profile</a>
-      <a href="login.html">Login</a>
+      <a href="login.html" id="login-link">Login</a>
     </div>
   </header>
 
@@ -206,5 +141,42 @@
     <a href="terms">Terms & Conditions</a>
     <a href="privacy">Privacy Policy</a>
   </footer>
+
+  <!-- Login-Status Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+      const loginLink = document.querySelector("a[href='login.html']");
+      const profileLink = document.querySelector("a[href='profile.html']");
+
+      if (isLoggedIn) {
+        if (loginLink) {
+          loginLink.textContent = "Logout";
+          loginLink.href = "#";
+          loginLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            localStorage.removeItem("isLoggedIn");
+            window.location.href = "index.html";
+          });
+        }
+      } else {
+        if (profileLink) {
+          profileLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = "login.html";
+          });
+        }
+      }
+
+      document.querySelectorAll(".upgrade-button").forEach((btn) => {
+        if (!isLoggedIn) {
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = "login.html";
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Loca – Analysis</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
@@ -63,72 +63,33 @@
   </footer>
 
   <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const address = urlParams.get('address');
-      const projectType = urlParams.get('projectType');
+    document.addEventListener("DOMContentLoaded", () => {
+      const data = JSON.parse(localStorage.getItem("analysisData") || "{}");
 
-      document.getElementById("headline").textContent = `Analysis: ${address} – Projektart: ${projectType}`;
+      if (!data.address || !data.projectType) {
+        document.getElementById("headline").textContent = "Fehler: Keine Analyse-Daten gefunden.";
+        return;
+      }
 
-      try {
-        const response = await fetch("https://api.openai.com/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer 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"
-          },
-          body: JSON.stringify({
-            model: "gpt-4-turbo",
-            messages: [
-              {
-                role: "user",
-                content: `Bitte analysiere wie ein professioneller Immobiliengutachter die folgende Adresse: ${address}. Projektart: ${projectType}. Gib die Antwort in folgendem JSON-Format ohne Text drumherum:
-{
-  "score": "8.4",
-  "summary": "Kurze Lagebewertung.",
-  "einschaetzung": "KI-Kommentar.",
-  "statistik": [
-    { "Kategorie": "Mietpreis 2024", "Wert": "12,30 EUR/m²" },
-    { "Kategorie": "Kaufpreis 2024", "Wert": "4.800 EUR/m²" },
-    { "Kategorie": "Bevölkerung", "Wert": "38.000 (im PLZ-Gebiet)" },
-    { "Kategorie": "Durchschnittsalter", "Wert": "39,2 Jahre" },
-    { "Kategorie": "Einpendlerquote", "Wert": "48 %" },
-    { "Kategorie": "Nahversorgung", "Wert": "Sehr gut" }
-  ]
-}`
-              }
-            ],
-            temperature: 0.7,
-            max_tokens: 1000
-          })
-        });
+      document.getElementById("headline").textContent = `Analysis: ${data.address} – Projektart: ${data.projectType}`;
+      document.getElementById("score").textContent = data.score + " / 10";
+      document.getElementById("summary").textContent = data.summary;
+      document.getElementById("einschaetzung").textContent = data.einschaetzung;
 
-        const result = await response.json();
-        const content = JSON.parse(result.choices[0].message.content);
+      const table = document.createElement("table");
+      const headerRow = document.createElement("tr");
+      headerRow.innerHTML = "<th>Kategorie</th><th>Wert</th>";
+      table.appendChild(headerRow);
 
-        document.getElementById("score").textContent = content.score + " / 10";
-        document.getElementById("summary").textContent = content.summary;
-        document.getElementById("einschaetzung").textContent = content.einschaetzung;
-
-        const table = document.createElement("table");
-        const headerRow = document.createElement("tr");
-        headerRow.innerHTML = "<th>Kategorie</th><th>Wert</th>";
-        table.appendChild(headerRow);
-
-        content.statistik.forEach(entry => {
+      if (Array.isArray(data.statistik)) {
+        data.statistik.forEach(entry => {
           const row = document.createElement("tr");
           row.innerHTML = `<td>${entry.Kategorie}</td><td>${entry.Wert}</td>`;
           table.appendChild(row);
         });
-
-        document.getElementById("statistik").appendChild(table);
-
-      } catch (error) {
-        document.getElementById("score").textContent = "Fehler beim Laden.";
-        document.getElementById("summary").textContent = "Zusammenfassung nicht verfügbar.";
-        document.getElementById("einschaetzung").textContent = "Analyse fehlgeschlagen.";
-        console.error(error);
       }
+
+      document.getElementById("statistik").appendChild(table);
     });
   </script>
 </body>

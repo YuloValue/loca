@@ -94,30 +94,39 @@
       text-decoration: none;
     }
   </style>
-<script>
-  // Beim Laden prüfen, ob eingeloggt
-  document.addEventListener("DOMContentLoaded", () => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
-    if (!isLoggedIn) {
-      // Weiterleitung zur Login-Seite
-      window.location.href = "login.html";
-      return;
-    }
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
-    // Header-Links anpassen
-    const loginLink = document.querySelector("a[href='login.html']");
-    if (loginLink) {
-      loginLink.textContent = "Logout";
-      loginLink.href = "#";
-      loginLink.addEventListener("click", (e) => {
-        e.preventDefault();
-        localStorage.removeItem("isLoggedIn");
-        window.location.href = "index.html";
-      });
-    }
-  });
-</script>
+      // Weiterleitung wenn nicht eingeloggt
+      if (!isLoggedIn) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      // Login-Logout Navigation
+      const loginLink = document.querySelector("a[href='login.html']");
+      const profileLink = document.querySelector("a[href='profile.html']");
+
+      if (isLoggedIn && loginLink) {
+        loginLink.textContent = "Logout";
+        loginLink.href = "#";
+        loginLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          localStorage.removeItem("isLoggedIn");
+          window.location.href = "index.html";
+        });
+      }
+
+      if (!isLoggedIn && profileLink) {
+        profileLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          window.location.href = "login.html";
+        });
+      }
+    });
+  </script>
 </head>
 <body>
   <header>
@@ -146,9 +155,9 @@
   </main>
 
   <footer>
-    <a href="contact">Contact / Imprint</a>
-    <a href="terms">Terms & Conditions</a>
-    <a href="privacy">Privacy Policy</a>
+    <a href="contact.html">Contact / Imprint</a>
+    <a href="terms.html">Terms & Conditions</a>
+    <a href="privacy.html">Privacy Policy</a>
   </footer>
 </body>
 </html>

@@ -243,7 +243,7 @@
           });
 
           if (response.ok) {
-            window.location.href = "analysis.html";
+            window.location.href = `analysis.html?address=${encodeURIComponent(address)}&projectType=${encodeURIComponent(projectType)}`;
           } else {
             alert("Fehler bei der Analyse: " + response.statusText);
           }

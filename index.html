@@ -94,7 +94,7 @@
   </footer>
 
   <script>
-    document.getElementById("startBtn").addEventListener("click", async () => {
+    document.getElementById("startBtn").addEventListener("click", () => {
       const address = document.getElementById("addressInput").value.trim();
       const projectType = document.getElementById("projectSelect").value;
 
@@ -104,29 +104,13 @@
       }
 
       const data = {
-        address: address,
-        projectType: projectType
+        address,
+        projectType
       };
 
-      try {
-        const response = await fetch("https://hook.eu2.make.com/tupstgshbxd9n6ryg2m6c4ke3g7m8yp7", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(data)
-        });
-
-        if (response.ok) {
-  const result = await response.json(); // 1. Antwort auslesen
-  localStorage.setItem("analysisData", JSON.stringify(result)); // 2. Speichern
-  window.location.href = "analysis.html"; // 3. Weiterleiten
-} else {
-          alert("Fehler bei der Analyse: " + response.statusText);
-        }
-      } catch (err) {
-        alert("Verbindungsfehler: " + err.message);
-      }
+      // Nur speichern – Analyse kommt später auf der analysis.html
+      localStorage.setItem("analysisData", JSON.stringify(data));
+      window.location.href = "analysis.html";
     });
   </script>
 </body>

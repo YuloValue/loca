@@ -1,6 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+    const loginLink = document.querySelector("a[href='login.html']");
+    const profileLink = document.querySelector("a[href='profile.html']");
+
+    if (isLoggedIn) {
+      if (loginLink) {
+        loginLink.textContent = "Logout";
+        loginLink.href = "#";
+        loginLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          localStorage.removeItem("isLoggedIn");
+          window.location.href = "index.html";
+        });
+      }
+    } else {
+      if (profileLink) {
+        profileLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          window.location.href = "login.html";
+        });
+      }
+    }
+  });
+</script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Loca – About Us</title>

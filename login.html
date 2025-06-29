@@ -103,21 +103,21 @@
 
     // Beim Laden Seite: Menü anpassen
     window.addEventListener("DOMContentLoaded", () => {
-      const loginLink = document.querySelector("a[href='/login.html']");
-      const profileLink = document.querySelector("a[href='/profile.html']");
+      const loginLink = document.querySelector("a[href='login.html']");
+      const profileLink = document.querySelector("a[href='profile.html']");
 
       if (isLoggedIn) {
         if (loginLink) loginLink.textContent = "Logout";
         if (loginLink) loginLink.href = "#";
         if (loginLink) loginLink.addEventListener("click", () => {
           localStorage.removeItem("isLoggedIn");
-          window.location.href = "/";
+          window.location.href = "index.html";
         });
       } else {
         if (profileLink) {
           profileLink.addEventListener("click", (e) => {
             e.preventDefault();
-            window.location.href = "/login.html";
+            window.location.href = "login.html";
           });
         }
       }
@@ -173,27 +173,12 @@
         // Einfache Fake-Login-Logik (immer erfolgreich)
         if (email && password) {
           localStorage.setItem("isLoggedIn", "true");
-          window.location.href = "/analysis.html";
+          window.location.href = "analysis.html";
         } else {
           alert("Please enter email and password.");
         }
       });
     }
   </script>
-  <script>
-    document.getElementById("login-form").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      // Speichere Login-Status (für Demo-Zwecke, nicht sicher)
-      localStorage.setItem("loggedIn", "true");
-      localStorage.setItem("userEmail", email);
-
-      // Weiterleitung zur Analyse-Seite
-      window.location.href = "/analysis.html";
-    });
-  </script>
-
 </body>
 </html>

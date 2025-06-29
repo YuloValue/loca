@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Loca – Your Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+      background: white;
+      color: black;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 64px;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    header a {
+      text-decoration: none;
+      color: black;
+      margin-left: 32px;
+    }
+
+    .nav-left {
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    main {
+      flex: 1;
+      padding: 48px 16px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .analysis-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .analysis-entry {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+
+    .analysis-entry h2 {
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .analysis-entry p {
+      font-size: 14px;
+      color: #777;
+    }
+
+    footer {
+      margin-top: 80px;
+      padding: 32px 64px;
+      background-color: #f9f9f9;
+      font-size: 14px;
+      color: #777;
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+    }
+
+    footer a {
+      color: #777;
+      text-decoration: none;
+    }
+  </style>
+  <script>
+    // Check login status
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+    // Beim Laden Seite: Menü anpassen
+    window.addEventListener("DOMContentLoaded", () => {
+      const loginLink = document.querySelector("a[href='/login.html']");
+      const profileLink = document.querySelector("a[href='/profile.html']");
+
+      if (isLoggedIn) {
+        if (loginLink) loginLink.textContent = "Logout";
+        if (loginLink) loginLink.href = "#";
+        if (loginLink) loginLink.addEventListener("click", () => {
+          localStorage.removeItem("isLoggedIn");
+          window.location.href = "/";
+        });
+      } else {
+        if (profileLink) {
+          profileLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = "/login.html";
+          });
+        }
+      }
+
+      // Upgrade Buttons: Wenn nicht eingeloggt → Login-Seite
+      document.querySelectorAll(".upgrade-button").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          if (!isLoggedIn) {
+            e.preventDefault();
+            window.location.href = "/login.html";
+          }
+        });
+      });
+    });
+  </script>
+
+</head>
+<body>
+  <header>
+    <div class="nav-left"><a href="/">Loca®</a></div>
+    <div class="nav-right">
+      <a href="/analysis.html"><strong>Analysis</strong></a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="/about.html">About Us</a>
+      <a href="/profile.html">Profile</a>
+      <a href="/login.html">Login</a>
+    </div>
+  </header>
+
+  <main>
+    <h1>Your Previous Analyses</h1>
+    <div class="analysis-list">
+      <div class="analysis-entry">
+        <h2>Musterstraße 1, 12345 Berlin</h2>
+        <p>Analyzed on: 2025-06-21</p>
+      </div>
+      <div class="analysis-entry">
+        <h2>Beispielweg 77, 54321 Hamburg</h2>
+        <p>Analyzed on: 2025-06-10</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <a href="/contact">Contact / Imprint</a>
+    <a href="/terms">Terms & Conditions</a>
+    <a href="/privacy">Privacy Policy</a>
+  </footer>
+</body>
+</html>

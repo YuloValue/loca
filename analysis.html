@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Loca – Analysis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+      background: white;
+      color: black;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 64px;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    header a {
+      text-decoration: none;
+      color: black;
+      margin-left: 32px;
+    }
+
+    .nav-left {
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    main {
+      flex: 1;
+      padding: 48px 64px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    section {
+      margin-bottom: 48px;
+    }
+
+    h2 {
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: #222;
+    }
+
+    .chart-placeholder {
+      height: 200px;
+      background-color: #f1f1f1;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #999;
+      font-size: 14px;
+    }
+
+    .data-point {
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .score {
+      font-size: 32px;
+      font-weight: 700;
+      margin: 16px 0;
+      color: green;
+    }
+
+    .summary {
+      font-size: 16px;
+      color: #444;
+      margin-top: 12px;
+    }
+
+    footer {
+      margin-top: 80px;
+      padding: 32px 64px;
+      background-color: #f9f9f9;
+      font-size: 14px;
+      color: #777;
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+    }
+
+    footer a {
+      color: #777;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-left"><a href="/">Loca®</a></div>
+    <div class="nav-right">
+      <a href="/analysis.html"><strong>Analysis</strong></a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="/about.html">About Us</a>
+      <a href="/profile.html">Profile</a>
+      <a href="/login.html">Login</a>
+    </div>
+  </header>
+
+  <main>
+    <h1>Analysis: Musterstraße 123, Berlin – Project Type: Wohnraum</h1>
+    <div id="analysis-result" style="white-space: pre-wrap; margin-top: 40px; line-height: 1.6;">
+      Loading analysis...
+    </div>
+
+    <script>
+    fetch("https://hook.eu2.make.com/redff9tmx42d4qq0fkrp372w46ir8ml7/output")
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("analysis-result").textContent = data.choices?.[0]?.message?.content || "No response received.";
+      })
+      .catch(error => {
+        document.getElementById("analysis-result").textContent = "Error loading analysis.";
+        console.error(error);
+      });
+    </script>
+
+    <section>
+      <h2>🏡 Kernaussage & Standortbewertung</h2>
+      <div class="score">8.5 / 10</div>
+      <div class="summary">Sehr gute Lage mit starker Nahversorgung und stabiler Mietpreisentwicklung.</div>
+    </section>
+
+    <section>
+      <h2>💰 Miet- & Kaufpreisentwicklung</h2>
+      <div class="chart-placeholder">[Chart: Mietpreise 10 Jahre]</div>
+      <div class="chart-placeholder">[Chart: Kaufpreise 10 Jahre]</div>
+    </section>
+
+    <section>
+      <h2>🚇 Infrastruktur & Erreichbarkeit</h2>
+      <div class="data-point">⏱ 4 Min zur nächsten U-Bahn (U7)</div>
+      <div class="data-point">🅿️ Öffentliche Parkmöglichkeiten in 300 m</div>
+      <div class="data-point">⚡ Glasfaser: Ja | E-Ladesäulen: 2 in 500 m</div>
+    </section>
+
+    <section>
+      <h2>🏥 Nahversorgung & Bildung</h2>
+      <div class="data-point">🛒 3 Supermärkte in 300 m</div>
+      <div class="data-point">🏫 2 Grundschulen & 1 Gymnasium im Umkreis</div>
+      <div class="data-point">💊 1 Apotheke & 2 Hausärzte in 500 m</div>
+    </section>
+
+    <section>
+      <h2>📊 Demografie & Entwicklungspotenzial</h2>
+      <div class="chart-placeholder">[Chart: Bevölkerungsentwicklung]</div>
+      <div class="data-point">👥 Anteil Akademiker: 43 %</div>
+      <div class="data-point">👶 Kinderanteil (U18): 21 %</div>
+      <div class="data-point">📈 Prognose: Positiver Trend (Wachstum +2 %/Jahr)</div>
+    </section>
+
+    <section>
+      <h2>📍 Standortkarte</h2>
+      <div class="chart-placeholder">[Google Maps Embed Placeholder]</div>
+    </section>
+
+    <section>
+      <h2>🧠 KI-Einschätzung</h2>
+      <div class="summary">Dieser Standort ist hervorragend geeignet für Wohnraumprojekte im mittleren bis gehobenen Preissegment. Die Nähe zu Bildungseinrichtungen, stabile Mietentwicklung und gute Erreichbarkeit machen ihn langfristig attraktiv. Risiken: leichte Zunahme an Lärm durch Verkehrsaufkommen in 3 Jahren.</div>
+    </section>
+  </main>
+
+  <footer>
+    <a href="/contact">Contact / Imprint</a>
+    <a href="/terms">Terms & Conditions</a>
+    <a href="/privacy">Privacy Policy</a>
+  </footer>
+</body>
+</html>

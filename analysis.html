@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -65,10 +65,11 @@
       color: #222;
     }
 
-    canvas {
+    .chart-container {
+      position: relative;
       width: 100%;
+      max-width: 800px;
       height: 300px;
-      margin-bottom: 24px;
     }
 
     .score {
@@ -119,43 +120,24 @@
   </header>
 
   <main>
-    <h1>Analysis: Musterstraße 123, Berlin – Project Type: Wohnraum</h1>
+    <h1>Analysis: Musterstraße 123, Berlin – Projektart: Wohnraum</h1>
 
     <section>
       <h2>🏡 Kernaussage & Standortbewertung</h2>
-      <div class="score">8.5 / 10</div>
-      <div class="summary">Sehr gute Lage mit starker Nahversorgung und stabiler Mietpreisentwicklung.</div>
+      <div class="score" id="score">Wird geladen...</div>
+      <div class="summary" id="summary">Bitte warten, die Bewertung wird generiert.</div>
     </section>
 
     <section>
       <h2>💰 Miet- & Kaufpreisentwicklung</h2>
-      <canvas id="priceChart"></canvas>
-    </section>
-
-    <section>
-      <h2>🚇 Infrastruktur & Erreichbarkeit</h2>
-      <div class="data-point">⏱ 4 Min zur nächsten U-Bahn (U7)</div>
-      <div class="data-point">🅿️ Öffentliche Parkmöglichkeiten in 300 m</div>
-      <div class="data-point">⚡ Glasfaser: Ja | E-Ladesäulen: 2 in 500 m</div>
-    </section>
-
-    <section>
-      <h2>🏥 Nahversorgung & Bildung</h2>
-      <div class="data-point">🛒 3 Supermärkte in 300 m</div>
-      <div class="data-point">🏫 2 Grundschulen & 1 Gymnasium im Umkreis</div>
-      <div class="data-point">💊 1 Apotheke & 2 Hausärzte in 500 m</div>
-    </section>
-
-    <section>
-      <h2>📊 Demografie & Entwicklungspotenzial</h2>
-      <div class="data-point">👥 Anteil Akademiker: 43 %</div>
-      <div class="data-point">👶 Kinderanteil (U18): 21 %</div>
-      <div class="data-point">📈 Prognose: Positiver Trend (Wachstum +2 %/Jahr)</div>
+      <div class="chart-container">
+        <canvas id="priceChart"></canvas>
+      </div>
     </section>
 
     <section>
       <h2>🧠 KI-Einschätzung</h2>
-      <div class="summary">Dieser Standort ist hervorragend geeignet für Wohnraumprojekte im mittleren bis gehobenen Preissegment. Die Nähe zu Bildungseinrichtungen, stabile Mietentwicklung und gute Erreichbarkeit machen ihn langfristig attraktiv. Risiken: leichte Zunahme an Lärm durch Verkehrsaufkommen in 3 Jahren.</div>
+      <div class="summary" id="einschaetzung">Die KI-Einschätzung wird geladen...</div>
     </section>
   </main>
 
@@ -166,98 +148,94 @@
   </footer>
 
   <script>
-    // Login-Status aktualisieren
-    document.addEventListener("DOMContentLoaded", () => {
-      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-      const loginLink = document.querySelector("a[href='login.html']");
-      const profileLink = document.querySelector("a[href='profile.html']");
-
-      if (isLoggedIn) {
-        if (loginLink) {
-          loginLink.textContent = "Logout";
-          loginLink.href = "#";
-          loginLink.addEventListener("click", (e) => {
-            e.preventDefault();
-            localStorage.removeItem("isLoggedIn");
-            window.location.href = "index.html";
-          });
-        }
-      } else {
-        if (profileLink) {
-          profileLink.addEventListener("click", (e) => {
-            e.preventDefault();
-            window.location.href = "login.html";
-          });
-        }
-      }
-    });
-
-    // CHART
-    const ctx = document.getElementById('priceChart').getContext('2d');
-    const labels = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024];
-    const mietpreise = [8.00, 8.20, 8.50, 9.00, 9.50, 10.00, 10.30, 10.60, 11.00, 11.40];
-    const kaufpreise = [2200, 2300, 2400, 2550, 2750, 2950, 3200, 3500, 3750, 3900];
-
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: 'Mietpreis €/m²',
-            data: mietpreise,
-            borderColor: 'black',
-            backgroundColor: 'black',
-            pointRadius: 4,
-            tension: 0.3
+    document.addEventListener("DOMContentLoaded", async () => {
+      try {
+        const response = await fetch("https://hook.eu2.make.com/redff9tmx42d4qq0fkrp372w46ir8ml7", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
           },
-          {
-            label: 'Kaufpreis €/m²',
-            data: kaufpreise,
-            borderColor: '#999',
-            backgroundColor: '#999',
-            borderDash: [5, 5],
-            pointRadius: 4,
-            tension: 0.3
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: {
-          mode: 'index',
-          intersect: false
-        },
-        plugins: {
-          legend: {
-            labels: {
-              color: 'black',
-              font: {
-                size: 14
+          body: JSON.stringify({
+            address: "Musterstraße 123, Berlin",
+            projectType: "Wohnraum"
+          })
+        });
+
+        const data = await response.json();
+
+        // Inhalte einfügen
+        document.getElementById("score").textContent = data.score + " / 10";
+        document.getElementById("summary").textContent = data.summary;
+        document.getElementById("einschaetzung").textContent = data.einschaetzung;
+
+        // Chart zeichnen
+        const ctx = document.getElementById('priceChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: data.chart.labels,
+            datasets: [
+              {
+                label: 'Mietpreis €/m²',
+                data: data.chart.mietpreise,
+                borderColor: 'black',
+                backgroundColor: 'black',
+                pointRadius: 4,
+                tension: 0.3
+              },
+              {
+                label: 'Kaufpreis €/m²',
+                data: data.chart.kaufpreise,
+                borderColor: '#999',
+                backgroundColor: '#999',
+                borderDash: [5, 5],
+                pointRadius: 4,
+                tension: 0.3
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            interaction: {
+              mode: 'index',
+              intersect: false
+            },
+            plugins: {
+              legend: {
+                labels: {
+                  color: 'black',
+                  font: {
+                    size: 14
+                  }
+                }
+              },
+              tooltip: {
+                backgroundColor: 'white',
+                borderColor: '#ccc',
+                borderWidth: 1,
+                titleColor: 'black',
+                bodyColor: 'black'
+              }
+            },
+            scales: {
+              x: {
+                ticks: { color: 'black' },
+                grid: { color: '#eee' }
+              },
+              y: {
+                ticks: { color: 'black' },
+                grid: { color: '#eee' },
+                beginAtZero: false
               }
             }
-          },
-          tooltip: {
-            enabled: true,
-            backgroundColor: 'white',
-            borderColor: '#ccc',
-            borderWidth: 1,
-            titleColor: 'black',
-            bodyColor: 'black'
           }
-        },
-        scales: {
-          x: {
-            ticks: { color: 'black' },
-            grid: { color: '#eee' }
-          },
-          y: {
-            ticks: { color: 'black' },
-            grid: { color: '#eee' },
-            beginAtZero: false
-          }
-        }
+        });
+
+      } catch (error) {
+        console.error("Fehler beim Abruf der Analyse:", error);
+        document.getElementById("summary").textContent = "Fehler beim Laden der Analyse.";
+        document.getElementById("einschaetzung").textContent = "Fehler beim Laden der Einschätzung.";
       }
     });
   </script>

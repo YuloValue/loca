@@ -1,157 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Loca – Legal & Contact</title>
+  <title>Loca – Rechtliches & Kontakt</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Outfit', sans-serif;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
 
     body {
-      background: white;
-      color: black;
+      background: #fafafa;
+      color: #111;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
     }
 
+    a { text-decoration: none; color: black; }
+
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 24px 64px;
+      padding: 24px 32px;
+      border-bottom: 1px solid #eee;
       font-weight: 600;
       font-size: 16px;
+      background: white;
     }
 
-    header a {
-      text-decoration: none;
-      color: black;
-      margin-left: 32px;
-    }
-
-    .nav-left {
+    .nav-left a {
       font-weight: 700;
-      font-size: 18px;
+      font-size: 20px;
+      color: black;
+    }
+
+    .nav-right a {
+      margin-left: 32px;
     }
 
     main {
       flex: 1;
       padding: 48px 16px;
-      max-width: 800px;
-      margin: 0 auto;
+      max-width: 900px;
+      margin: auto;
     }
 
     h1 {
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 700;
       margin-bottom: 32px;
+      text-align: center;
     }
 
     h2 {
-      font-size: 20px;
-      font-weight: 600;
-      margin-top: 40px;
+      font-size: 24px;
+      margin-top: 48px;
       margin-bottom: 16px;
+      font-weight: 600;
+      color: #222;
     }
 
     p {
+      margin-bottom: 16px;
       color: #444;
       line-height: 1.6;
-      margin-bottom: 16px;
+    }
+
+    ul {
+      padding-left: 24px;
+      margin-bottom: 32px;
+      color: #444;
+    }
+
+    li {
+      margin-bottom: 8px;
     }
 
     footer {
-      margin-top: 80px;
-      padding: 32px 64px;
-      background-color: #f9f9f9;
+      margin-top: auto;
+      padding: 32px;
+      background-color: #f0f0f0;
       font-size: 14px;
       color: #777;
       display: flex;
       justify-content: center;
       gap: 32px;
+      flex-wrap: wrap;
     }
 
     footer a {
       color: #777;
-      text-decoration: none;
+    }
+
+    @media(max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .nav-right {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
     }
   </style>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-      const loginLink = document.querySelector("a[href='login.html']");
-      const profileLink = document.querySelector("a[href='profile.html']");
-
-      if (isLoggedIn && loginLink) {
-        loginLink.textContent = "Logout";
-        loginLink.href = "#";
-        loginLink.addEventListener("click", (e) => {
-          e.preventDefault();
-          localStorage.removeItem("isLoggedIn");
-          window.location.href = "index.html";
-        });
-      }
-
-      if (!isLoggedIn && profileLink) {
-        profileLink.addEventListener("click", (e) => {
-          e.preventDefault();
-          window.location.href = "login.html";
-        });
-      }
-    });
-  </script>
 </head>
 <body>
   <header>
     <div class="nav-left"><a href="index.html">Loca®</a></div>
     <div class="nav-right">
-      <a href="analysis.html"><strong>Analysis</strong></a>
-      <a href="pricing.html">Pricing</a>
-      <a href="about.html">About Us</a>
-      <a href="profile.html">Profile</a>
-      <a href="login.html">Login</a>
+      <a href="analysis.html">Analyse</a>
+      <a href="pricing.html">Preise</a>
+      <a href="about.html">Über Uns</a>
+      <a href="profile.html">Profil</a>
+      <a href="#" id="login-link">Login</a>
     </div>
   </header>
 
   <main>
-    <h1>Legal & Contact</h1>
+    <h1>📄 Rechtliches & Kontakt</h1>
 
-    <h2>📬 Contact / Imprint</h2>
+    <h2>📬 Kontakt / Impressum</h2>
     <p><strong>Loca GmbH</strong></p>
-    <p>Urbanstraße 123<br>12345 Berlin, Germany</p>
+    <p>Urbanstraße 123<br>12345 Berlin, Deutschland</p>
     <p>Email: hello@loca.ai</p>
-    <p>Managing Director: Max Mustermann</p>
-    <p>VAT-ID: DE123456789</p>
+    <p>Geschäftsführer: Max Mustermann</p>
+    <p>USt-ID: DE123456789</p>
 
-    <h2>📄 Terms & Conditions</h2>
-    <p>By using Loca, you agree to the following terms:</p>
-    <ul style="padding-left: 20px; color: #444;">
-      <li>You may not resell or redistribute analysis results without written permission.</li>
-      <li>Loca provides location insights based on public and third-party data. No legal liability is assumed for decisions based on the results.</li>
-      <li>We reserve the right to modify our service, pricing or terms at any time.</li>
-    </ul>
-
-    <h2>🔐 Privacy Policy</h2>
-    <p>We value your privacy. This is how we handle your data:</p>
-    <ul style="padding-left: 20px; color: #444;">
-      <li>We do not sell your personal data.</li>
-      <li>Your email and analysis inputs are stored securely and only used to deliver our services.</li>
-      <li>You can request deletion of your data at any time by contacting hello@loca.ai.</li>
-    </ul>
-  </main>
-
-<footer>
-  <a href="legal.html">Contact / Imprint</a>
-  <a href="legal.html">Terms & Conditions</a>
-  <a href="legal.html">Privacy Policy</a>
-</footer>
-
-</body>
-</html>
+    <h2>📜 Allgemeine Geschäftsbedingungen (AGB)</h2>
+    <p>Mit Nutzung von Loca stimmen Sie folgenden Bedingungen zu:</p>
+    <ul>
+      <li>Die Analyseergebnisse dürfen nicht ohne schriftliche Zustimmung weiterverkauft oder weiterverbreitet werden.</li>
+      <li>Loca basiert auf öffentlich zugänglichen und Drittanbieter-Da

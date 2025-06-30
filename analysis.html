@@ -6,217 +6,226 @@
   <title>Loca – Standortanalyse</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
-    body { background: #fff; color: #111; display: flex; flex-direction: column; min-height: 100vh; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', sans-serif; }
+    body { background: #fafafa; color: #111; display: flex; flex-direction: column; min-height: 100vh; }
 
-    a { text-decoration: none; color: black; }
+    a { text-decoration: none; color: inherit; }
+
     header {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 24px 64px; border-bottom: 1px solid #eee;
-      font-weight: 600; font-size: 16px;
-    }
-    .nav-left { font-size: 20px; font-weight: 700; }
-    .nav-right a { margin-left: 32px; }
-
-    main { flex: 1; padding: 48px 24px; max-width: 1000px; margin: auto; }
-
-    h1 { font-size: 28px; font-weight: 700; margin-bottom: 24px; text-align: center; }
-    h2 { font-size: 22px; margin-top: 40px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
-    h3 { font-size: 18px; margin-top: 24px; color: #333; }
-
-    table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 15px; }
-    th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
-    th { background: #f5f5f5; }
-
-    input, select {
-      padding: 12px 16px; font-size: 16px; width: 100%;
-      margin-bottom: 24px; border: 1px solid #ccc; border-radius: 8px;
+      padding: 24px 32px; border-bottom: 1px solid #eee;
+      font-weight: 600; font-size: 16px; background: white;
     }
 
-    button {
-      background: black; color: white; border: none;
-      padding: 12px 24px; font-size: 16px; border-radius: 20px;
-      cursor: pointer; transition: 0.2s ease;
+    .nav-left a {
+      font-weight: 700; font-size: 20px; color: black;
     }
 
-    button:hover { background: #333; }
+    .nav-right a {
+      margin-left: 32px; color: black;
+    }
+
+    main {
+      flex: 1;
+      padding: 32px 16px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-top: 48px;
+      margin-bottom: 24px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+
+    .card h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      font-size: 15px;
+      color: #444;
+    }
+
+    .input-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .input-wrapper input,
+    .input-wrapper select,
+    .input-wrapper button {
+      padding: 12px 16px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .input-wrapper button {
+      background: black;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
 
     footer {
-      margin-top: auto; padding: 32px;
-      background-color: #f0f0f0; font-size: 14px;
-      color: #777; display: flex; justify-content: center;
-      gap: 32px; flex-wrap: wrap;
+      padding: 32px;
+      text-align: center;
+      font-size: 14px;
+      color: #777;
+      background: #f0f0f0;
     }
 
     @media(max-width: 768px) {
-      header { flex-direction: column; align-items: flex-start; padding: 16px 32px; }
-      header nav { margin-top: 12px; }
-      table, th, td { font-size: 14px; }
+      header { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .nav-right { display: flex; flex-wrap: wrap; gap: 12px; }
     }
   </style>
 </head>
 <body>
   <header>
     <div class="nav-left"><a href="index.html">Loca®</a></div>
-    <nav class="nav-right">
-      <a href="analysis.html"><strong>Analyse</strong></a>
-      <a href="pricing.html">Preise</a>
-      <a href="about.html">Über Uns</a>
-      <a href="profile.html">Profil</a>
-      <a href="login.html" id="login-link">Login</a>
-    </nav>
+    <div class="nav-right">
+      <a href="analysis.html"><strong>Analysis</strong></a>
+      <a href="pricing.html">Pricing</a>
+      <a href="about.html">About Us</a>
+      <a href="profile.html">Profile</a>
+      <a href="#" id="login-link">Login</a>
+    </div>
   </header>
 
   <main id="content">
-    <!-- Wird dynamisch befüllt -->
+    <h1 id="headline"></h1>
+
+    <div id="loggedInContent" style="display: none;">
+      <div class="input-wrapper">
+        <input type="text" id="addressInput" placeholder="Adresse eingeben">
+        <select id="projectSelect">
+          <option disabled selected>Projektart wählen</option>
+          <option value="Wohnraum">Wohnraum</option>
+          <option value="Büro">Büro</option>
+          <option value="Einzelhandel">Einzelhandel</option>
+          <option value="Industrie">Industrie</option>
+          <option value="Hotel">Hotel/Gastro</option>
+          <option value="Soziales">Soziales</option>
+        </select>
+        <button id="analyzeBtn">Analyse starten</button>
+      </div>
+    </div>
+
+    <div id="exampleContent" style="display: none;">
+      <h2>📍 Beispielanalyse für: Rellinghauser Straße 159, Essen</h2>
+      <div class="grid">
+        <div class="card"><h3>🏡 Immobilienmarkt</h3><p><strong>Kaufpreise:</strong> 4.800 €/m² (Whg), 5.100 €/m² (Haus)<br><strong>Miete:</strong> 12,30 €/m² kalt<br><strong>Preisentwicklung:</strong> +12 %<br><strong>Leerstand:</strong> 2,1 %<br><strong>Transaktionen:</strong> 320 Verkäufe, Ø 48 Tage<br><strong>Neubauten:</strong> 24 BG, 18 fertig<br><strong>Rendite:</strong> 3,4 % Brutto</p></div>
+        <div class="card"><h3>📍 Mikrolage</h3><p><strong>ÖPNV:</strong> S-Bahn 500 m<br><strong>Verkehr:</strong> 4 Min zur A40<br><strong>Parken:</strong> Tiefgarage in 200 m<br><strong>Bildung:</strong> Kita, Schule, Gymn.<br><strong>Gesundheit:</strong> Ärztezentrum 1 km<br><strong>Nahversorgung:</strong> REWE, Bäcker<br><strong>Erholung:</strong> Park, Sportplatz<br><strong>Sicherheit:</strong> mittel, Lärm gering<br><strong>Luft:</strong> sauber</p></div>
+<!-- KI-gestützte Empfehlung -->
+<div class="card" style="grid-column: span 2;">
+  <h3>🧠 KI-Empfehlung zum Projekttyp</h3>
+  <p>Basierend auf den Standortdaten erscheint <strong>Wohnraum</strong> als geeignete Projektart, da die Nachfrage nach Miet- und Eigentumswohnungen in der Umgebung überdurchschnittlich hoch ist und die demografische Entwicklung stabil positiv verläuft. Die Anbindung an den öffentlichen Nahverkehr und die Nahversorgung sind sehr gut, was die Attraktivität zusätzlich steigert.</p>
+  <ul>
+    <li><strong>Risiken (🔴 = hoch, 🟡 = mittel, 🟢 = gering):</strong></li>
+    <li>🔴 Hohes Preisniveau – begrenzter Spielraum für Rendite</li>
+    <li>🟡 Wettbewerb durch andere Projekte in der Region</li>
+    <li>🟢 Gute Vermietbarkeit, aber moderate Mietrendite</li>
+    <li>🟢 Keine bekannten baurechtlichen Einschränkungen</li>
+    <li>🟡 Mittlere Hitzebelastung in heißen Sommern</li>
+  </ul>
+  <ul>
+    <li><strong>Chancen (🟢 = sehr gut, 🟡 = vorhanden, 🔴 = gering):</strong></li>
+    <li>🟢 Zuzug junger Zielgruppen</li>
+    <li>🟢 Nähe zu Bildungs- & Freizeitinfrastruktur</li>
+    <li>🟢 Förderprogramme (z. B. KfW, Sanierungsgebiete)</li>
+    <li>🟡 Potenzial zur energetischen Sanierung im Bestand</li>
+    <li>🟡 Mögliches Nachverdichtungspotenzial</li>
+  </ul>
+  <p><strong>Alternative Empfehlung:</strong> Falls der Wohnungsmarkt überhitzt erscheint, könnte <em>Büro</em> oder <em>Einzelhandel</em> geprüft werden – vor allem bei hoher Passantenfrequenz und moderaten Gewerbemieten.</p>
+</div>
+</div>
+        <div class="card"><h3>🗺️ Karte & Radius</h3><p>1 km Umkreis mit relevanter Infrastruktur.</p><iframe src="loca_map.html" width="100%" height="400" style="border:1px solid #ccc; border-radius: 8px;"></iframe></div>
+        <div class="card"><h3>🧑‍🤝‍🧑 Demografie</h3><p><strong>Einwohner:</strong> 38.000<br><strong>Alter:</strong> Median 39,2 J<br><strong>Haushalte:</strong> 40 % Single<br><strong>Zuzug:</strong> +2,1 %<br><strong>Bildung:</strong> 35 % mit Abitur<br><strong>Einkommen:</strong> Ø 3.100 € netto<br><strong>Arbeitslosigkeit:</strong> 5,4 %<br><strong>Eigentumsquote:</strong> 45 %</p></div>
+        <div class="card"><h3>🏭 Wirtschaft</h3><p><strong>Struktur:</strong> 60 % Dienstl., 20 % Industrie<br><strong>Pendler:</strong> 48 % rein, Ø 29 Min<br><strong>Top AG:</strong> RWE, E.ON, UK Essen<br><strong>Startups:</strong> 5,8/10<br><strong>Tourismus:</strong> Messe & Business<br><strong>Mieten:</strong> 11,20 € Büro, 6,50 € Lager<br><strong>Cluster:</strong> Energie, MedTech</p></div>
+        <div class="card"><h3>📈 Trends</h3><p><strong>Prognose:</strong> +4,2 % Bevölk. in 10 J.<br><strong>Baurecht:</strong> FNP/B-Plan vorhanden<br><strong>Klimadaten:</strong> keine Hochwasserzone<br><strong>Förderung:</strong> Sanierung, KfW 261<br><strong>Nachhaltigkeit:</strong> PV-Potenzial hoch</p></div>
+        <div class="card"><h3>💰 Finanzen</h3><p><strong>Leitzins:</strong> 4,25 %<br><strong>Bauzinsen:</strong> 3,8 % (10J)<br><strong>Inflation:</strong> 2,6 %<br><strong>Förderung:</strong> KfW, BAFA<br><strong>Kaufkraft:</strong> Index 102<br><strong>Steuern:</strong> Grundst. B: 690 %</p></div>
+        <div class="card"><h3>📦 Bonusdaten</h3><p><strong>Mobilität:</strong> Bike-/Carsharing<br><strong>Social Data:</strong> +82 % Sentiment<br><strong>Energie:</strong> Fernwärme grün<br><strong>Altlasten:</strong> keine bekannt<br><strong>Katastrophen:</strong> kein Risiko</p></div>
+      </div>
+    </div>
   </main>
 
   <footer>
-    <a href="legal.html">Kontakt / Impressum</a>
-    <a href="legal.html">AGB</a>
-    <a href="legal.html">Datenschutz</a>
+    <nav style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;">
+      <a href="legal.html">Kontakt & Impressum</a>
+      <a href="legal.html">AGB</a>
+      <a href="legal.html">Datenschutz</a>
+    </nav>
   </footer>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-      const loginLink = document.getElementById("login-link");
-      const content = document.getElementById("content");
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const headline = document.getElementById("headline");
+    const loggedInContent = document.getElementById("loggedInContent");
+    const exampleContent = document.getElementById("exampleContent");
+    const loginLink = document.getElementById("login-link");
 
-      // LOGIN-LINK ANPASSEN
-      if (isLoggedIn) {
+    if (isLoggedIn) {
+      headline.textContent = "🔍 Neue Analyse erstellen";
+      loggedInContent.style.display = "block";
+      if (loginLink) {
         loginLink.textContent = "Logout";
-        loginLink.href = "#";
         loginLink.addEventListener("click", (e) => {
           e.preventDefault();
           localStorage.removeItem("isLoggedIn");
           window.location.reload();
         });
-      } else {
+      }
+    } else {
+      headline.textContent = "📊 Beispielanalyse";
+      exampleContent.style.display = "block";
+      if (loginLink) {
         loginLink.textContent = "Login";
         loginLink.href = "login.html";
       }
+    }
 
-      // NICHT EINGELOGGT = BEISPIEL-ANALYSE
-      if (!isLoggedIn) {
-        content.innerHTML = `
-          <h1>🏙️ Standortbezogene Daten für Investoren, Entwickler & Bestandshalter</h1>
-
-          <h2>🏡 1. Immobilienmarkt & Preisentwicklung</h2>
-          ${makeTable([
-            ["Kaufpreise", "4.800 €/m² (Wohnung), 5.100 €/m² (Haus)"],
-            ["Mietpreise", "12,30 €/m² kalt, 15,20 €/m² warm"],
-            ["Preisentwicklung", "+12 % in 5 Jahren"],
-            ["Leerstand", "2,1 % im Stadtteil"],
-            ["Transaktionen", "320 Verkäufe, Ø 48 Tage"],
-            ["Neubauten", "24 Baugenehmigungen, 18 Fertigstellungen"],
-            ["Rendite", "3,4 % Brutto, Mietfaktor 24"]
-          ])}
-
-          <h2>📍 2. Mikrolage & Infrastruktur</h2>
-          ${makeTable([
-            ["ÖPNV", "S-Bahn 500 m, 10-Min-Takt"],
-            ["Individualverkehr", "4 Min zur A40, 8 Min zum Hbf"],
-            ["Parken", "Tiefgarage & Parkhaus in 200 m"],
-            ["Bildung", "2 Kitas, 1 Grundschule, Gymnasium 800 m"],
-            ["Gesundheit", "Apotheke & Ärztezentrum im Radius 1 km"],
-            ["Nahversorgung", "REWE, Bäcker, Gastronomie fußläufig"],
-            ["Erholung", "Stadtpark, Sportplatz, Spielplatz in Nähe"],
-            ["Sicherheit", "Lärmbelastung niedrig, mittlere Kriminalität"],
-            ["Luftqualität", "Feinstaub gering, Luft rein"]
-          ])}
-
-          <h2>🧑‍🤝‍🧑 3. Demografie & Bevölkerung</h2>
-          ${makeTable([
-            ["Einwohner", "38.000 (wachsend)"],
-            ["Altersstruktur", "Median: 39,2 Jahre"],
-            ["Haushaltsgrößen", "40 % Single, 25 % Familien"],
-            ["Zuzug / Wegzug", "+2,1 % Nettozuzug"],
-            ["Bildung", "35 % mit Hochschulreife"],
-            ["Einkommen", "Ø 3.100 € Haushaltsnetto"],
-            ["Beschäftigung", "5,4 % Arbeitslosenquote"],
-            ["Eigentumsquote", "45 % Eigentümer"]
-          ])}
-
-          <h2>🏭 4. Wirtschaft & Arbeitsmarkt</h2>
-          ${makeTable([
-            ["Wirtschaftsstruktur", "60 % Dienstleistung, 20 % Industrie"],
-            ["Pendler", "48 % Einpendler, Ø Pendelzeit 29 Min"],
-            ["Top-Arbeitgeber", "E.ON, Uniklinikum, RWE"],
-            ["Startup-Index", "Mittel: 5,8 / 10"],
-            ["Tourismus", "Messe & Business-Stadt"],
-            ["Gewerbemieten", "11,20 €/m² (Büro), 6,50 €/m² (Lager)"],
-            ["Cluster", "Energie, MedTech, Bildung"]
-          ])}
-
-          <h2>📈 5. Marktdynamik & Trends</h2>
-          ${makeTable([
-            ["Bevölkerungsprognose", "+4,2 % in 10 Jahren"],
-            ["Wohnbaupotenziale", "Nachverdichtung & Umnutzungspotenziale"],
-            ["Baurecht", "FNP: Wohnen/Misch, B-Plan gültig"],
-            ["Klimadaten", "Keine Hochwasserzone, mittlere Hitzebelastung"],
-            ["Förderung", "Sanierungsgebiet, KfW 261 möglich"],
-            ["Nachhaltigkeit", "Photovoltaik-Potenzial hoch"]
-          ])}
-
-          <h2>💰 6. Finanzielle & wirtschaftliche Faktoren</h2>
-          ${makeTable([
-            ["Leitzins", "4,25 % (EZB)"],
-            ["Bauzinsen", "3,8 % für 10 Jahre fest"],
-            ["Inflation", "2,6 % (Deutschland), 2,1 % regional"],
-            ["Förderprogramme", "KfW, BAFA, Landesförderung"],
-            ["Kaufkraftindex", "102 (leicht überdurchschnittlich)"],
-            ["Steuern", "Grunderwerb 6,5 %, Grundsteuer B: 690 %"]
-          ])}
-
-          <h2>📦 BONUS: Deep-Dive-Daten</h2>
-          ${makeTable([
-            ["Mobilität", "Bike-/Carsharing, Heatmap aktiv"],
-            ["Social Data", "Stadtteil gut bewertet (Sentiment +82 %)"],
-            ["Energie", "Strom & Fernwärme aus Ökostrom verfügbar"],
-            ["Altlasten", "Keine bekannt laut Kataster"],
-            ["Katastrophenschutz", "Hochwassersicher, kein Risiko"]
-          ])}
-        `;
-      } else {
-        // Eingeloggt = Eingabemaske
-        content.innerHTML = `
-          <h1>Standortanalyse starten</h1>
-          <input type="text" id="addressInput" placeholder="Adresse eingeben" />
-          <select id="projectSelect">
-            <option disabled selected>Projektart wählen</option>
-            <option value="Wohnraum">Wohnraum</option>
-            <option value="Büro">Büro</option>
-            <option value="Einzelhandel">Einzelhandel</option>
-            <option value="Industrie">Industrie</option>
-            <option value="Hotel">Hotel / Gastro</option>
-            <option value="Soziales">Soziales</option>
-          </select>
-          <button id="startBtn">Analyse starten</button>
-        `;
-        document.getElementById("startBtn").addEventListener("click", () => {
-          const address = document.getElementById("addressInput").value.trim();
-          const projectType = document.getElementById("projectSelect").value;
-          if (!address || !projectType || projectType === "Projektart wählen") {
-            alert("Bitte Adresse und Projektart angeben!");
-            return;
-          }
-          const data = { address, projectType };
-          localStorage.setItem("analysisData", JSON.stringify(data));
-          window.location.href = "analysis.html"; // Reload
-        });
-      }
-
-      // Tabellen-Renderer
-      function makeTable(rows) {
-        let html = `<table><tr><th>Kategorie</th><th>Daten</th></tr>`;
-        rows.forEach(([kat, daten]) => {
-          html += `<tr><td>${kat}</td><td>${daten}</td></tr>`;
-        });
-        html += `</table>`;
-        return html;
-      }
-    });
+    const btn = document.getElementById("analyzeBtn");
+    if (btn) {
+      btn.addEventListener("click", () => {
+        const address = document.getElementById("addressInput").value.trim();
+        const projectType = document.getElementById("projectSelect").value;
+        if (!address || !projectType || projectType === "Projektart wählen") {
+          alert("Bitte Adresse und Projektart angeben!");
+          return;
+        }
+        const data = { address, projectType };
+        localStorage.setItem("analysisData", JSON.stringify(data));
+        window.location.href = "analysis.html";
+      });
+    }
   </script>
 </body>
 </html>

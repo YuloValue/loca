@@ -6,10 +6,7 @@
   <title>Loca – Dein Profil</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-      font-family: 'Outfit', sans-serif;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
 
     body {
       background: #fafafa;
@@ -22,7 +19,9 @@
     a { text-decoration: none; color: black; }
 
     header {
-      display: flex; justify-content: space-between; align-items: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       padding: 24px 32px;
       border-bottom: 1px solid #eee;
       font-weight: 600;
@@ -31,7 +30,8 @@
     }
 
     .nav-left a {
-      font-weight: 700; font-size: 20px;
+      font-weight: 700;
+      font-size: 20px;
     }
 
     .nav-right a {
@@ -43,13 +43,20 @@
       padding: 48px 16px;
       max-width: 800px;
       margin: auto;
-      text-align: center;
     }
 
     h1 {
       font-size: 32px;
       font-weight: 700;
-      margin-bottom: 40px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .user-info {
+      font-size: 16px;
+      margin-bottom: 32px;
+      text-align: center;
+      color: #444;
     }
 
     .analysis-list {
@@ -120,10 +127,10 @@
   </header>
 
   <main>
+    <h1>Dein Profil</h1>
+    <div class="user-info" id="userInfo">Lade Nutzerdaten...</div>
     <h1>Deine letzten Analysen</h1>
-    <div class="analysis-list" id="analysisList">
-      <!-- Dynamisch befüllt -->
-    </div>
+    <div class="analysis-list" id="analysisList">Lade Analysen...</div>
   </main>
 
   <footer>
@@ -133,44 +140,78 @@
     <a href="contact.html">Kontakt</a>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const supabase = supabase.createClient(
+      'https://uyccbwhpxjguoyoctpzn.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5Y2Nid2hweGpndW95b2N0cHpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEwMTM3MTYsImV4cCI6MjA2NjU4OTcxNn0.XkUVGvDIXTHc9z8yQznJyKkLHnQ4Q0R0XB6q42nr1OY'
+    );
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      const session = (await supabase.auth.getSession()).data.session;
+      const isLoggedIn = !!session;
       const loginLink = document.getElementById("login-link");
+      const userInfo = document.getElementById("userInfo");
+      const analysisList = document.getElementById("analysisList");
 
       if (!isLoggedIn) {
         window.location.href = "login.html";
         return;
       }
 
-      // Logout-Link
+      const user = session.user;
+
+      // Header-Login-Link anpassen
       if (loginLink) {
         loginLink.textContent = "Logout";
         loginLink.href = "#";
-        loginLink.addEventListener("click", (e) => {
+        loginLink.addEventListener("click", async (e) => {
           e.preventDefault();
-          localStorage.removeItem("isLoggedIn");
+          await supabase.auth.signOut();
           window.location.href = "index.html";
         });
       }
 
-      // Dummy-Daten (du kannst dies durch echte Datenquelle ersetzen)
-      const analyses = JSON.parse(localStorage.getItem("analyses") || "[]");
-      const analysisList = document.getElementById("analysisList");
+      // Lade Nutzerinformationen aus 'profiles'
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("user_id", user.id)
+        .single();
 
-      if (analyses.length === 0) {
-        analysisList.innerHTML = "<p>Keine Analysen vorhanden.</p>";
+      if (profile && !profileError) {
+        userInfo.innerHTML = `
+          <strong>${profile.firstname} ${profile.lastname}</strong><br/>
+          ${profile.company}<br/>
+          <span style="color:#999;">${user.email}</span>
+        `;
       } else {
+        userInfo.textContent = "Profilinformationen konnten nicht geladen werden.";
+      }
+
+      // Lade Standortanalysen aus 'analyses'
+      const { data: analyses, error: analysesError } = await supabase
+        .from("analyses")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+
+      if (!analysesError && analyses.length > 0) {
+        analysisList.innerHTML = "";
         analyses.forEach(entry => {
           const div = document.createElement("div");
           div.className = "analysis-entry";
           div.innerHTML = `
-            <h2>${entry.address}</h2>
-            <p>Projekt: ${entry.projectType}</p>
-            <p>Analysiert am: ${entry.timestamp}</p>
+            <h2>${entry.adress_input || "Adresse unbekannt"}</h2>
+            <p><strong>Projektart:</strong> ${entry.project_type || "k.A."}</p>
+            <p><strong>Score:</strong> ${entry.score || "-"}</p>
+            <p>${entry.pgt_output_text || ""}</p>
+            <p style="font-size:12px; color:#aaa;">${new Date(entry.created_at).toLocaleString("de-DE")}</p>
           `;
           analysisList.appendChild(div);
         });
+      } else {
+        analysisList.innerHTML = "<p>Keine Analysen vorhanden.</p>";
       }
     });
   </script>

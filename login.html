@@ -159,17 +159,28 @@
     <a href="contact.html">Kontakt</a>
   </footer>
 
+  <!-- Supabase einbinden -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const supabase = supabase.createClient(
+      'https://uyccbwhpxjguoyoctpzn.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5Y2Nid2hweGpndW95b2N0cHpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEwMTM3MTYsImV4cCI6MjA2NjU4OTcxNn0.XkUVGvDIXTHc9z8yQznJyKkLHnQ4Q0R0XB6q42nr1OY'
+    );
+  </script>
+
+  <!-- Login & Navigation -->
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const session = (await supabase.auth.getSession()).data.session;
+      const isLoggedIn = !!session;
       const loginLink = document.getElementById("login-link");
 
       if (isLoggedIn && loginLink) {
         loginLink.textContent = "Logout";
         loginLink.href = "#";
-        loginLink.addEventListener("click", (e) => {
+        loginLink.addEventListener("click", async (e) => {
           e.preventDefault();
-          localStorage.removeItem("isLoggedIn");
+          await supabase.auth.signOut();
           window.location.href = "index.html";
         });
       } else {
@@ -197,16 +208,20 @@
 
     const loginForm = document.querySelector("#login-form");
     if (loginForm) {
-      loginForm.addEventListener("submit", (e) => {
+      loginForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         const email = document.querySelector("#email").value;
         const password = document.querySelector("#password").value;
 
-        if (email && password) {
-          localStorage.setItem("isLoggedIn", "true");
-          window.location.href = "profile.html";
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (error) {
+          alert("Login fehlgeschlagen: " + error.message);
         } else {
-          alert("Bitte E-Mail und Passwort eingeben.");
+          window.location.href = "profile.html";
         }
       });
     }

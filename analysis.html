@@ -3,42 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title><!-- ANPASSUNG: Projektname -->Loca – Analyse</title>
+  <title>Loca – Standortanalyse</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
     body { background: #fff; color: #111; display: flex; flex-direction: column; min-height: 100vh; }
 
     a { text-decoration: none; color: black; }
-
     header {
       display: flex; justify-content: space-between; align-items: center;
       padding: 24px 64px; border-bottom: 1px solid #eee;
       font-weight: 600; font-size: 16px;
     }
-
     .nav-left { font-size: 20px; font-weight: 700; }
     .nav-right a { margin-left: 32px; }
 
-    main { flex: 1; padding: 48px 24px; max-width: 900px; margin: auto; }
+    main { flex: 1; padding: 48px 24px; max-width: 1000px; margin: auto; }
 
-    h1 { font-size: 30px; font-weight: 700; margin-bottom: 24px; text-align: center; }
-    h2 { font-size: 22px; margin-bottom: 16px; color: #222; }
-    .score { font-size: 36px; font-weight: 700; margin: 16px 0; color: green; text-align: center; }
-    .summary, .einschaetzung { font-size: 17px; color: #444; margin: 16px 0; line-height: 1.6; }
+    h1 { font-size: 28px; font-weight: 700; margin-bottom: 24px; text-align: center; }
+    h2 { font-size: 22px; margin-top: 40px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    h3 { font-size: 18px; margin-top: 24px; color: #333; }
 
-    .section { margin-bottom: 64px; }
-
-    table {
-      width: 100%; border-collapse: collapse; margin-top: 16px;
-      font-size: 16px; background: #fafafa;
-    }
-
-    th, td {
-      padding: 14px; border: 1px solid #ddd; text-align: left;
-    }
-
-    th { background-color: #f0f0f0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 15px; }
+    th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+    th { background: #f5f5f5; }
 
     input, select {
       padding: 12px 16px; font-size: 16px; width: 100%;
@@ -63,7 +51,7 @@
     @media(max-width: 768px) {
       header { flex-direction: column; align-items: flex-start; padding: 16px 32px; }
       header nav { margin-top: 12px; }
-      table, th, td { font-size: 15px; }
+      table, th, td { font-size: 14px; }
     }
   </style>
 </head>
@@ -80,7 +68,7 @@
   </header>
 
   <main id="content">
-    <!-- Wird per JS befüllt -->
+    <!-- Wird dynamisch befüllt -->
   </main>
 
   <footer>
@@ -90,36 +78,108 @@
   </footer>
 
   <script>
-    document.addEventListener("DOMContentLoaded", async () => {
+    document.addEventListener("DOMContentLoaded", () => {
       const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+      const loginLink = document.getElementById("login-link");
       const content = document.getElementById("content");
 
+      // LOGIN-LINK ANPASSEN
+      if (isLoggedIn) {
+        loginLink.textContent = "Logout";
+        loginLink.href = "#";
+        loginLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          localStorage.removeItem("isLoggedIn");
+          window.location.reload();
+        });
+      } else {
+        loginLink.textContent = "Login";
+        loginLink.href = "login.html";
+      }
+
+      // NICHT EINGELOGGT = BEISPIEL-ANALYSE
       if (!isLoggedIn) {
         content.innerHTML = `
-          <h1>🔍 Beispiel-Analyse</h1>
-          <section class="section">
-            <h2>🏡 Standortbewertung</h2>
-            <div class="score">8.4 / 10</div>
-            <div class="summary">Die Rellinghauser Straße 159 in Essen liegt in einem gut angebundenen Viertel mit hoher Wohnqualität.</div>
-          </section>
-          <section class="section">
-            <h2>📊 Statistiken & Vergleichswerte</h2>
-            <table>
-              <tr><th>Kategorie</th><th>Wert</th></tr>
-              <tr><td>Mietpreis 2024</td><td>12,30 EUR/m²</td></tr>
-              <tr><td>Kaufpreis 2024</td><td>4.800 EUR/m²</td></tr>
-              <tr><td>Bevölkerung</td><td>38.000 (im PLZ-Gebiet)</td></tr>
-              <tr><td>Durchschnittsalter</td><td>39,2 Jahre</td></tr>
-              <tr><td>Einpendlerquote</td><td>48 %</td></tr>
-              <tr><td>Nahversorgung</td><td>Sehr gut</td></tr>
-            </table>
-          </section>
-          <section class="section">
-            <h2>🧠 KI-Einschätzung</h2>
-            <div class="einschaetzung">Diese Adresse bietet hohe Standortqualität, gute Verkehrsanbindung und stabile Mietnachfrage – ideal für Wohnprojekte.</div>
-          </section>
+          <h1>🏙️ Standortbezogene Daten für Investoren, Entwickler & Bestandshalter</h1>
+
+          <h2>🏡 1. Immobilienmarkt & Preisentwicklung</h2>
+          ${makeTable([
+            ["Kaufpreise", "4.800 €/m² (Wohnung), 5.100 €/m² (Haus)"],
+            ["Mietpreise", "12,30 €/m² kalt, 15,20 €/m² warm"],
+            ["Preisentwicklung", "+12 % in 5 Jahren"],
+            ["Leerstand", "2,1 % im Stadtteil"],
+            ["Transaktionen", "320 Verkäufe, Ø 48 Tage"],
+            ["Neubauten", "24 Baugenehmigungen, 18 Fertigstellungen"],
+            ["Rendite", "3,4 % Brutto, Mietfaktor 24"]
+          ])}
+
+          <h2>📍 2. Mikrolage & Infrastruktur</h2>
+          ${makeTable([
+            ["ÖPNV", "S-Bahn 500 m, 10-Min-Takt"],
+            ["Individualverkehr", "4 Min zur A40, 8 Min zum Hbf"],
+            ["Parken", "Tiefgarage & Parkhaus in 200 m"],
+            ["Bildung", "2 Kitas, 1 Grundschule, Gymnasium 800 m"],
+            ["Gesundheit", "Apotheke & Ärztezentrum im Radius 1 km"],
+            ["Nahversorgung", "REWE, Bäcker, Gastronomie fußläufig"],
+            ["Erholung", "Stadtpark, Sportplatz, Spielplatz in Nähe"],
+            ["Sicherheit", "Lärmbelastung niedrig, mittlere Kriminalität"],
+            ["Luftqualität", "Feinstaub gering, Luft rein"]
+          ])}
+
+          <h2>🧑‍🤝‍🧑 3. Demografie & Bevölkerung</h2>
+          ${makeTable([
+            ["Einwohner", "38.000 (wachsend)"],
+            ["Altersstruktur", "Median: 39,2 Jahre"],
+            ["Haushaltsgrößen", "40 % Single, 25 % Familien"],
+            ["Zuzug / Wegzug", "+2,1 % Nettozuzug"],
+            ["Bildung", "35 % mit Hochschulreife"],
+            ["Einkommen", "Ø 3.100 € Haushaltsnetto"],
+            ["Beschäftigung", "5,4 % Arbeitslosenquote"],
+            ["Eigentumsquote", "45 % Eigentümer"]
+          ])}
+
+          <h2>🏭 4. Wirtschaft & Arbeitsmarkt</h2>
+          ${makeTable([
+            ["Wirtschaftsstruktur", "60 % Dienstleistung, 20 % Industrie"],
+            ["Pendler", "48 % Einpendler, Ø Pendelzeit 29 Min"],
+            ["Top-Arbeitgeber", "E.ON, Uniklinikum, RWE"],
+            ["Startup-Index", "Mittel: 5,8 / 10"],
+            ["Tourismus", "Messe & Business-Stadt"],
+            ["Gewerbemieten", "11,20 €/m² (Büro), 6,50 €/m² (Lager)"],
+            ["Cluster", "Energie, MedTech, Bildung"]
+          ])}
+
+          <h2>📈 5. Marktdynamik & Trends</h2>
+          ${makeTable([
+            ["Bevölkerungsprognose", "+4,2 % in 10 Jahren"],
+            ["Wohnbaupotenziale", "Nachverdichtung & Umnutzungspotenziale"],
+            ["Baurecht", "FNP: Wohnen/Misch, B-Plan gültig"],
+            ["Klimadaten", "Keine Hochwasserzone, mittlere Hitzebelastung"],
+            ["Förderung", "Sanierungsgebiet, KfW 261 möglich"],
+            ["Nachhaltigkeit", "Photovoltaik-Potenzial hoch"]
+          ])}
+
+          <h2>💰 6. Finanzielle & wirtschaftliche Faktoren</h2>
+          ${makeTable([
+            ["Leitzins", "4,25 % (EZB)"],
+            ["Bauzinsen", "3,8 % für 10 Jahre fest"],
+            ["Inflation", "2,6 % (Deutschland), 2,1 % regional"],
+            ["Förderprogramme", "KfW, BAFA, Landesförderung"],
+            ["Kaufkraftindex", "102 (leicht überdurchschnittlich)"],
+            ["Steuern", "Grunderwerb 6,5 %, Grundsteuer B: 690 %"]
+          ])}
+
+          <h2>📦 BONUS: Deep-Dive-Daten</h2>
+          ${makeTable([
+            ["Mobilität", "Bike-/Carsharing, Heatmap aktiv"],
+            ["Social Data", "Stadtteil gut bewertet (Sentiment +82 %)"],
+            ["Energie", "Strom & Fernwärme aus Ökostrom verfügbar"],
+            ["Altlasten", "Keine bekannt laut Kataster"],
+            ["Katastrophenschutz", "Hochwassersicher, kein Risiko"]
+          ])}
         `;
       } else {
+        // Eingeloggt = Eingabemaske
         content.innerHTML = `
           <h1>Standortanalyse starten</h1>
           <input type="text" id="addressInput" placeholder="Adresse eingeben" />
@@ -134,7 +194,6 @@
           </select>
           <button id="startBtn">Analyse starten</button>
         `;
-
         document.getElementById("startBtn").addEventListener("click", () => {
           const address = document.getElementById("addressInput").value.trim();
           const projectType = document.getElementById("projectSelect").value;
@@ -144,8 +203,18 @@
           }
           const data = { address, projectType };
           localStorage.setItem("analysisData", JSON.stringify(data));
-          window.location.href = "analysis.html";
+          window.location.href = "analysis.html"; // Reload
         });
+      }
+
+      // Tabellen-Renderer
+      function makeTable(rows) {
+        let html = `<table><tr><th>Kategorie</th><th>Daten</th></tr>`;
+        rows.forEach(([kat, daten]) => {
+          html += `<tr><td>${kat}</td><td>${daten}</td></tr>`;
+        });
+        html += `</table>`;
+        return html;
       }
     });
   </script>

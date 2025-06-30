@@ -6,11 +6,7 @@
   <title>Loca – Intelligente Standortanalyse</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
-    * {
-      margin: 0; padding: 0;
-      box-sizing: border-box;
-      font-family: 'Outfit', sans-serif;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
 
     body {
       background: #fff;
@@ -20,34 +16,27 @@
       min-height: 100vh;
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
+    a { text-decoration: none; color: black; }
 
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 24px 64px;
+      padding: 24px 32px;
+      border-bottom: 1px solid #eee;
       font-weight: 600;
       font-size: 16px;
-      border-bottom: 1px solid #eee;
-      position: relative;
+      background: white;
     }
 
-    .logo {
-      font-size: 20px;
+    .nav-left a {
       font-weight: 700;
+      font-size: 20px;
+      color: black;
     }
 
-    nav {
-      display: flex;
-      gap: 32px;
-    }
-
-    nav a {
-      cursor: pointer;
+    .nav-right a {
+      margin-left: 32px;
     }
 
     main {
@@ -216,17 +205,20 @@
       flex-wrap: wrap;
     }
 
+    footer a {
+      color: #777;
+    }
+
     @media(max-width: 768px) {
       header {
         flex-direction: column;
         align-items: flex-start;
-        padding: 16px 32px;
+        gap: 12px;
       }
 
-      nav {
-        margin-top: 12px;
+      .nav-right {
         display: flex;
-        flex-direction: column;
+        flex-wrap: wrap;
         gap: 12px;
       }
 
@@ -240,14 +232,14 @@
 <body>
 
   <header>
-    <div class="logo"><a href="index.html">Loca®</a></div>
-    <nav id="nav-links">
+    <div class="nav-left"><a href="index.html">Loca®</a></div>
+    <div class="nav-right">
       <a href="analysis.html">Analyse</a>
       <a href="pricing.html">Preise</a>
       <a href="about.html">Über Uns</a>
       <a href="profile.html">Profil</a>
-      <a href="login.html" id="login-link">Login</a>
-    </nav>
+      <a href="#" id="login-link">Login</a>
+    </div>
   </header>
 
   <main>
@@ -368,6 +360,9 @@
           localStorage.removeItem("isLoggedIn");
           window.location.href = "index.html";
         });
+      } else {
+        loginLink.textContent = "Login";
+        loginLink.href = "login.html";
       }
     });
   </script>

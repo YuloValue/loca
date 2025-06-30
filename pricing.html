@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pricing – Loca</title>
+  <title>Loca – Preise</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
     * {
@@ -14,60 +14,71 @@
     }
 
     body {
-      background: white;
-      color: black;
+      background: #fafafa;
+      color: #111;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+    }
+
+    a {
+      text-decoration: none;
+      color: black;
     }
 
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 24px 64px;
+      padding: 24px 32px;
+      border-bottom: 1px solid #eee;
       font-weight: 600;
       font-size: 16px;
+      background: white;
     }
 
-    header a {
-      text-decoration: none;
-      color: black;
-      margin-left: 32px;
-    }
-
-    .nav-left {
+    .nav-left a {
       font-weight: 700;
-      font-size: 18px;
+      font-size: 20px;
+    }
+
+    .nav-right a {
+      margin-left: 32px;
     }
 
     main {
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       padding: 48px 16px;
+      max-width: 1000px;
+      margin: auto;
+      text-align: center;
     }
 
     h1 {
       font-size: 32px;
       font-weight: 700;
-      margin-bottom: 32px;
+      margin-bottom: 40px;
     }
 
     .pricing-container {
       display: flex;
       justify-content: center;
-      gap: 32px;
       flex-wrap: wrap;
+      gap: 32px;
     }
 
     .plan {
-      border: 1px solid #ccc;
-      padding: 24px;
-      border-radius: 12px;
-      text-align: center;
-      width: 250px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 16px;
+      padding: 32px 24px;
+      width: 280px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+      transition: transform 0.2s;
+    }
+
+    .plan:hover {
+      transform: translateY(-4px);
     }
 
     .plan h2 {
@@ -76,75 +87,131 @@
     }
 
     .plan p {
-      font-size: 14px;
+      font-size: 15px;
       color: #555;
       margin-bottom: 16px;
     }
 
     .plan strong {
       display: block;
-      font-size: 18px;
-      margin-bottom: 16px;
+      font-size: 20px;
+      margin-bottom: 24px;
+      color: #000;
     }
 
     .plan button {
       background: black;
       color: white;
       border: none;
-      padding: 10px 20px;
-      font-size: 14px;
-      border-radius: 20px;
+      padding: 12px 24px;
+      font-size: 15px;
+      border-radius: 24px;
       cursor: pointer;
+      font-weight: 600;
     }
 
     footer {
-      margin-top: 80px;
-      padding: 32px 64px;
-      background-color: #f9f9f9;
+      margin-top: auto;
+      padding: 32px;
+      background-color: #f0f0f0;
       font-size: 14px;
       color: #777;
       display: flex;
       justify-content: center;
       gap: 32px;
+      flex-wrap: wrap;
     }
 
     footer a {
       color: #777;
-      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .nav-right {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .plan {
+        width: 100%;
+        max-width: 320px;
+      }
     }
   </style>
+</head>
+<body>
+  <header>
+    <div class="nav-left"><a href="index.html">Loca®</a></div>
+    <div class="nav-right">
+      <a href="analysis.html">Analyse</a>
+      <a href="pricing.html"><strong>Preise</strong></a>
+      <a href="about.html">Über Uns</a>
+      <a href="profile.html">Profil</a>
+      <a href="#" id="login-link">Login</a>
+    </div>
+  </header>
+
+  <main>
+    <h1>Wähle deinen Plan</h1>
+    <div class="pricing-container">
+      <div class="plan">
+        <h2>Free</h2>
+        <p>3 Standortanalysen / Monat</p>
+        <strong>0 €</strong>
+        <button data-plan="free">Gratis nutzen</button>
+      </div>
+      <div class="plan">
+        <h2>Standard</h2>
+        <p>Unbegrenzte Analysen + PDF Export</p>
+        <strong>9 € / Monat</strong>
+        <button data-plan="standard">Upgrade</button>
+      </div>
+      <div class="plan">
+        <h2>Pro</h2>
+        <p>Alle Features + Priorisierter Support</p>
+        <strong>19 € / Monat</strong>
+        <button data-plan="pro">Upgrade</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <a href="legal.html">Impressum</a>
+    <a href="legal.html">Datenschutz</a>
+    <a href="legal.html">AGB</a>
+    <a href="contact.html">Kontakt</a>
+  </footer>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-      const loginLink = document.querySelector("#login-link");
-      const profileLink = document.querySelector("a[href='profile.html']");
+      const loginLink = document.getElementById("login-link");
 
-      // Login/Logout-Logik
       if (isLoggedIn) {
-        if (loginLink) {
-          loginLink.textContent = "Logout";
-          loginLink.href = "#";
-          loginLink.addEventListener("click", (e) => {
-            e.preventDefault();
-            localStorage.removeItem("isLoggedIn");
-            window.location.href = "index.html";
-          });
-        }
+        loginLink.textContent = "Logout";
+        loginLink.href = "#";
+        loginLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          localStorage.removeItem("isLoggedIn");
+          window.location.href = "index.html";
+        });
       } else {
-        if (profileLink) {
-          profileLink.addEventListener("click", (e) => {
-            e.preventDefault();
-            window.location.href = "login.html";
-          });
-        }
+        loginLink.textContent = "Login";
+        loginLink.href = "login.html";
       }
 
-      // Upgrade-Button-Logik
       document.querySelectorAll(".plan button").forEach((button) => {
         button.addEventListener("click", () => {
+          const plan = button.getAttribute("data-plan");
           if (isLoggedIn) {
-            window.location.href = "payment.html";
+            window.location.href = `payment.html?plan=${plan}`;
           } else {
             window.location.href = "login.html";
           }
@@ -152,47 +219,5 @@
       });
     });
   </script>
-</head>
-<body>
-  <header>
-    <div class="nav-left"><a href="index.html">Loca®</a></div>
-    <div class="nav-right">
-      <a href="analysis.html"><strong>Analysis</strong></a>
-      <a href="pricing.html">Pricing</a>
-      <a href="about.html">About Us</a>
-      <a href="profile.html">Profile</a>
-      <a href="login.html" id="login-link">Login</a>
-    </div>
-  </header>
-
-  <main>
-    <h1>Choose your plan</h1>
-    <div class="pricing-container">
-      <div class="plan">
-        <h2>Free</h2>
-        <p>3 analyses per month</p>
-        <strong>€0</strong>
-        <button>Choose</button>
-      </div>
-      <div class="plan">
-        <h2>Standard</h2>
-        <p>Unlimited analyses + PDF export</p>
-        <strong>€9 / month</strong>
-        <button>Upgrade</button>
-      </div>
-      <div class="plan">
-        <h2>Pro</h2>
-        <p>All features + priority support</p>
-        <strong>€19 / month</strong>
-        <button>Upgrade</button>
-      </div>
-    </div>
-  </main>
-
-<footer>
-  <a href="legal.html">Contact / Imprint</a>
-  <a href="legal.html">Terms & Conditions</a>
-  <a href="legal.html">Privacy Policy</a>
-</footer>
 </body>
 </html>

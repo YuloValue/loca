@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Loca – Standortanalyse</title>
+  <title>Loca – Analyse</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', sans-serif; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
     body { background: #fafafa; color: #111; display: flex; flex-direction: column; min-height: 100vh; }
 
     a { text-decoration: none; color: inherit; }
@@ -17,39 +17,18 @@
       font-weight: 600; font-size: 16px; background: white;
     }
 
-    .nav-left a {
-      font-weight: 700; font-size: 20px; color: black;
-    }
+    .nav-left a { font-weight: 700; font-size: 20px; color: black; }
+    .nav-right a { margin-left: 32px; color: black; }
 
-    .nav-right a {
-      margin-left: 32px; color: black;
-    }
+    main { flex: 1; padding: 32px 16px; max-width: 1200px; margin: auto; }
 
-    main {
-      flex: 1;
-      padding: 32px 16px;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    h1 {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 32px;
-      text-align: center;
-    }
-
-    h2 {
-      font-size: 22px;
-      font-weight: 600;
-      margin-top: 48px;
-      margin-bottom: 24px;
-    }
+    h1 { font-size: 28px; font-weight: 700; margin-bottom: 32px; text-align: center; }
 
     .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
       gap: 24px;
+      justify-content: center;
     }
 
     .card {
@@ -57,16 +36,20 @@
       padding: 20px;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+      width: 350px;
+      text-align: right;
     }
 
     .card h3 {
       font-size: 18px;
       margin-bottom: 12px;
+      text-align: left;
     }
 
     .card p {
       font-size: 15px;
       color: #444;
+      line-height: 1.6;
     }
 
     .input-wrapper {
@@ -93,6 +76,24 @@
       cursor: pointer;
       font-weight: 600;
     }
+
+    .ampel-liste li {
+      list-style: none;
+      margin: 6px 0;
+      padding-left: 1em;
+      position: relative;
+      text-align: right;
+    }
+
+    .ampel-liste li::before {
+      content: "●";
+      position: absolute;
+      left: 0;
+    }
+
+    .gruen::before { color: green; }
+    .gelb::before { color: orange; }
+    .rot::before { color: red; }
 
     footer {
       padding: 32px;
@@ -140,49 +141,61 @@
     </div>
 
     <div id="exampleContent" style="display: none;">
-      <h2>📍 Beispielanalyse für: Rellinghauser Straße 159, Essen</h2>
+      <h2 style="margin-top: 48px; margin-bottom: 24px; text-align: center;">📍 Beispielanalyse für: Rellinghauser Straße 159, Essen</h2>
+
       <div class="grid">
-        <div class="card"><h3>🏡 Immobilienmarkt</h3><p><strong>Kaufpreise:</strong> 4.800 €/m² (Whg), 5.100 €/m² (Haus)<br><strong>Miete:</strong> 12,30 €/m² kalt<br><strong>Preisentwicklung:</strong> +12 %<br><strong>Leerstand:</strong> 2,1 %<br><strong>Transaktionen:</strong> 320 Verkäufe, Ø 48 Tage<br><strong>Neubauten:</strong> 24 BG, 18 fertig<br><strong>Rendite:</strong> 3,4 % Brutto</p></div>
-        <div class="card"><h3>📍 Mikrolage</h3><p><strong>ÖPNV:</strong> S-Bahn 500 m<br><strong>Verkehr:</strong> 4 Min zur A40<br><strong>Parken:</strong> Tiefgarage in 200 m<br><strong>Bildung:</strong> Kita, Schule, Gymn.<br><strong>Gesundheit:</strong> Ärztezentrum 1 km<br><strong>Nahversorgung:</strong> REWE, Bäcker<br><strong>Erholung:</strong> Park, Sportplatz<br><strong>Sicherheit:</strong> mittel, Lärm gering<br><strong>Luft:</strong> sauber</p></div>
-<!-- KI-gestützte Empfehlung -->
-<div class="card" style="grid-column: span 2;">
-  <h3>🧠 KI-Empfehlung zum Projekttyp</h3>
-  <p>Basierend auf den Standortdaten erscheint <strong>Wohnraum</strong> als geeignete Projektart, da die Nachfrage nach Miet- und Eigentumswohnungen in der Umgebung überdurchschnittlich hoch ist und die demografische Entwicklung stabil positiv verläuft. Die Anbindung an den öffentlichen Nahverkehr und die Nahversorgung sind sehr gut, was die Attraktivität zusätzlich steigert.</p>
-  <ul>
-    <li><strong>Risiken (🔴 = hoch, 🟡 = mittel, 🟢 = gering):</strong></li>
-    <li>🔴 Hohes Preisniveau – begrenzter Spielraum für Rendite</li>
-    <li>🟡 Wettbewerb durch andere Projekte in der Region</li>
-    <li>🟢 Gute Vermietbarkeit, aber moderate Mietrendite</li>
-    <li>🟢 Keine bekannten baurechtlichen Einschränkungen</li>
-    <li>🟡 Mittlere Hitzebelastung in heißen Sommern</li>
-  </ul>
-  <ul>
-    <li><strong>Chancen (🟢 = sehr gut, 🟡 = vorhanden, 🔴 = gering):</strong></li>
-    <li>🟢 Zuzug junger Zielgruppen</li>
-    <li>🟢 Nähe zu Bildungs- & Freizeitinfrastruktur</li>
-    <li>🟢 Förderprogramme (z. B. KfW, Sanierungsgebiete)</li>
-    <li>🟡 Potenzial zur energetischen Sanierung im Bestand</li>
-    <li>🟡 Mögliches Nachverdichtungspotenzial</li>
-  </ul>
-  <p><strong>Alternative Empfehlung:</strong> Falls der Wohnungsmarkt überhitzt erscheint, könnte <em>Büro</em> oder <em>Einzelhandel</em> geprüft werden – vor allem bei hoher Passantenfrequenz und moderaten Gewerbemieten.</p>
-</div>
-</div>
-        <div class="card"><h3>🗺️ Karte & Radius</h3><p>1 km Umkreis mit relevanter Infrastruktur.</p><iframe src="loca_map.html" width="100%" height="400" style="border:1px solid #ccc; border-radius: 8px;"></iframe></div>
-        <div class="card"><h3>🧑‍🤝‍🧑 Demografie</h3><p><strong>Einwohner:</strong> 38.000<br><strong>Alter:</strong> Median 39,2 J<br><strong>Haushalte:</strong> 40 % Single<br><strong>Zuzug:</strong> +2,1 %<br><strong>Bildung:</strong> 35 % mit Abitur<br><strong>Einkommen:</strong> Ø 3.100 € netto<br><strong>Arbeitslosigkeit:</strong> 5,4 %<br><strong>Eigentumsquote:</strong> 45 %</p></div>
-        <div class="card"><h3>🏭 Wirtschaft</h3><p><strong>Struktur:</strong> 60 % Dienstl., 20 % Industrie<br><strong>Pendler:</strong> 48 % rein, Ø 29 Min<br><strong>Top AG:</strong> RWE, E.ON, UK Essen<br><strong>Startups:</strong> 5,8/10<br><strong>Tourismus:</strong> Messe & Business<br><strong>Mieten:</strong> 11,20 € Büro, 6,50 € Lager<br><strong>Cluster:</strong> Energie, MedTech</p></div>
-        <div class="card"><h3>📈 Trends</h3><p><strong>Prognose:</strong> +4,2 % Bevölk. in 10 J.<br><strong>Baurecht:</strong> FNP/B-Plan vorhanden<br><strong>Klimadaten:</strong> keine Hochwasserzone<br><strong>Förderung:</strong> Sanierung, KfW 261<br><strong>Nachhaltigkeit:</strong> PV-Potenzial hoch</p></div>
-        <div class="card"><h3>💰 Finanzen</h3><p><strong>Leitzins:</strong> 4,25 %<br><strong>Bauzinsen:</strong> 3,8 % (10J)<br><strong>Inflation:</strong> 2,6 %<br><strong>Förderung:</strong> KfW, BAFA<br><strong>Kaufkraft:</strong> Index 102<br><strong>Steuern:</strong> Grundst. B: 690 %</p></div>
-        <div class="card"><h3>📦 Bonusdaten</h3><p><strong>Mobilität:</strong> Bike-/Carsharing<br><strong>Social Data:</strong> +82 % Sentiment<br><strong>Energie:</strong> Fernwärme grün<br><strong>Altlasten:</strong> keine bekannt<br><strong>Katastrophen:</strong> kein Risiko</p></div>
+        <div class="card"><h3>🏡 Immobilienmarkt</h3><p>4.800 €/m² Wohnung<br>5.100 €/m² Haus<br>+12 % in 5 Jahren<br>2,1 % Leerstand</p></div>
+        <div class="card"><h3>📍 Mikrolage</h3><p>S-Bahn 500 m, 10 Min Takt<br>4 Min zur A40<br>Schule + Kita fußläufig<br>Gute Luftqualität</p></div>
+        <div class="card"><h3>🧑‍🤝‍🧑 Demografie</h3><p>38.000 Ew.<br>Median: 39 J.<br>40 % Single<br>Ø Einkommen: 3.100 €</p></div>
+        <div class="card"><h3>🏭 Wirtschaft</h3><p>60 % Dienstl., 20 % Ind.<br>RWE, E.ON, UK Essen<br>5,8 / 10 Startup-Score<br>11,20 € Büro / 6,50 € Lager</p></div>
+        <div class="card"><h3>📈 Trends</h3><p>+4,2 % in 10 Jahren<br>FNP & B-Plan gültig<br>KfW 261 möglich<br>PV-Potenzial hoch</p></div>
+        <div class="card"><h3>💰 Finanzen</h3><p>Leitzins: 4,25 %<br>Bauzinsen: 3,8 %<br>Inflation: 2,6 %<br>Kaufkraft: Index 102</p></div>
+        <div class="card"><h3>📦 Bonusdaten</h3><p>Car/Bike Sharing<br>Sentiment: +82 %<br>Fernwärme, keine Altlasten<br>Kein Katastrophenrisiko</p></div>
+      </div>
+
+      <div style="margin-top: 48px;">
+        <h2 style="margin-bottom: 16px;">🧠 KI-Einschätzung für Wohnraum</h2>
+        <p style="font-size: 16px; color: #333; line-height: 1.6; max-width: 800px; margin: auto; text-align: right;">
+          Der Standort eignet sich gut für Wohnraum-Projekte aufgrund seiner stabilen Nachfrage, der sehr guten Nahversorgung, der Nähe zum Hbf sowie des soliden Einkommensniveaus. Die Mikrolage spricht Familien und junge Berufstätige gleichermaßen an.
+        </p>
+
+        <div class="grid" style="margin-top: 32px;">
+          <div class="card">
+            <h3>🔍 Chancen (Grün = hoch)</h3>
+            <ul class="ampel-liste">
+              <li class="gruen">Hohe Nachfrage nach Wohnraum</li>
+              <li class="gruen">Wenige Neubauten im Umkreis</li>
+              <li class="gelb">Stabile Mietpreise</li>
+              <li class="gruen">Gute ÖPNV-Anbindung</li>
+              <li class="gelb">Attraktive Freizeitmöglichkeiten</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>⚠️ Risiken (Rot = kritisch)</h3>
+            <ul class="ampel-liste">
+              <li class="rot">Mittlere Kriminalitätsrate</li>
+              <li class="gelb">Anteil Singlehaushalte hoch</li>
+              <li class="gelb">Begrenzte Parkflächen</li>
+              <li class="gruen">Kein Hochwassergebiet</li>
+              <li class="gruen">Gute Energieversorgung</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" style="margin: 32px auto; max-width: 800px;">
+          <h3>💡 Alternative Projektempfehlung</h3>
+          <p style="text-align: right;">
+            Aufgrund der Nähe zur Innenstadt, des starken Pendleraufkommens und der guten ÖPNV-Infrastruktur könnte ein Mikroapartment-Konzept oder betreutes Wohnen ebenfalls gut zum Standort passen.
+          </p>
+        </div>
       </div>
     </div>
   </main>
 
   <footer>
-    <nav style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;">
-      <a href="legal.html">Kontakt & Impressum</a>
-      <a href="legal.html">AGB</a>
-      <a href="legal.html">Datenschutz</a>
-    </nav>
+    <a href="legal.html">Contact / Imprint</a> •
+    <a href="legal.html">Terms & Conditions</a> •
+    <a href="legal.html">Privacy Policy</a>
   </footer>
 
   <script>
@@ -195,21 +208,17 @@
     if (isLoggedIn) {
       headline.textContent = "🔍 Neue Analyse erstellen";
       loggedInContent.style.display = "block";
-      if (loginLink) {
-        loginLink.textContent = "Logout";
-        loginLink.addEventListener("click", (e) => {
-          e.preventDefault();
-          localStorage.removeItem("isLoggedIn");
-          window.location.reload();
-        });
-      }
+      loginLink.textContent = "Logout";
+      loginLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("isLoggedIn");
+        window.location.reload();
+      });
     } else {
       headline.textContent = "📊 Beispielanalyse";
       exampleContent.style.display = "block";
-      if (loginLink) {
-        loginLink.textContent = "Login";
-        loginLink.href = "login.html";
-      }
+      loginLink.textContent = "Login";
+      loginLink.href = "login.html";
     }
 
     const btn = document.getElementById("analyzeBtn");

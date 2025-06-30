@@ -1,57 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Loca – Your Profile</title>
+  <title>Loca – Dein Profil</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      margin: 0; padding: 0; box-sizing: border-box;
       font-family: 'Outfit', sans-serif;
     }
 
     body {
-      background: white;
-      color: black;
+      background: #fafafa;
+      color: #111;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
     }
 
+    a { text-decoration: none; color: black; }
+
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 24px 64px;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px 32px;
+      border-bottom: 1px solid #eee;
       font-weight: 600;
       font-size: 16px;
+      background: white;
     }
 
-    header a {
-      text-decoration: none;
-      color: black;
+    .nav-left a {
+      font-weight: 700; font-size: 20px;
+    }
+
+    .nav-right a {
       margin-left: 32px;
-    }
-
-    .nav-left {
-      font-weight: 700;
-      font-size: 18px;
     }
 
     main {
       flex: 1;
       padding: 48px 16px;
       max-width: 800px;
-      margin: 0 auto;
+      margin: auto;
+      text-align: center;
     }
 
     h1 {
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 700;
-      text-align: center;
       margin-bottom: 40px;
     }
 
@@ -62,10 +59,11 @@
     }
 
     .analysis-entry {
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      padding: 20px;
-      background-color: #f9f9f9;
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: left;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
     }
 
     .analysis-entry h2 {
@@ -79,37 +77,74 @@
     }
 
     footer {
-      margin-top: 80px;
-      padding: 32px 64px;
-      background-color: #f9f9f9;
+      margin-top: auto;
+      padding: 32px;
+      background-color: #f0f0f0;
       font-size: 14px;
       color: #777;
       display: flex;
       justify-content: center;
       gap: 32px;
+      flex-wrap: wrap;
     }
 
     footer a {
       color: #777;
-      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .nav-right {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
     }
   </style>
+</head>
+<body>
+  <header>
+    <div class="nav-left"><a href="index.html">Loca®</a></div>
+    <div class="nav-right">
+      <a href="analysis.html">Analyse</a>
+      <a href="pricing.html">Preise</a>
+      <a href="about.html">Über Uns</a>
+      <a href="profile.html"><strong>Profil</strong></a>
+      <a href="login.html" id="login-link">Login</a>
+    </div>
+  </header>
+
+  <main>
+    <h1>Deine letzten Analysen</h1>
+    <div class="analysis-list" id="analysisList">
+      <!-- Dynamisch befüllt -->
+    </div>
+  </main>
+
+  <footer>
+    <a href="legal.html">Impressum</a>
+    <a href="legal.html">Datenschutz</a>
+    <a href="legal.html">AGB</a>
+    <a href="contact.html">Kontakt</a>
+  </footer>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+      const loginLink = document.getElementById("login-link");
 
-      // Weiterleitung wenn nicht eingeloggt
       if (!isLoggedIn) {
         window.location.href = "login.html";
         return;
       }
 
-      // Login-Logout Navigation
-      const loginLink = document.querySelector("a[href='login.html']");
-      const profileLink = document.querySelector("a[href='profile.html']");
-
-      if (isLoggedIn && loginLink) {
+      // Logout-Link
+      if (loginLink) {
         loginLink.textContent = "Logout";
         loginLink.href = "#";
         loginLink.addEventListener("click", (e) => {
@@ -119,46 +154,25 @@
         });
       }
 
-      if (!isLoggedIn && profileLink) {
-        profileLink.addEventListener("click", (e) => {
-          e.preventDefault();
-          window.location.href = "login.html";
+      // Dummy-Daten (du kannst dies durch echte Datenquelle ersetzen)
+      const analyses = JSON.parse(localStorage.getItem("analyses") || "[]");
+      const analysisList = document.getElementById("analysisList");
+
+      if (analyses.length === 0) {
+        analysisList.innerHTML = "<p>Keine Analysen vorhanden.</p>";
+      } else {
+        analyses.forEach(entry => {
+          const div = document.createElement("div");
+          div.className = "analysis-entry";
+          div.innerHTML = `
+            <h2>${entry.address}</h2>
+            <p>Projekt: ${entry.projectType}</p>
+            <p>Analysiert am: ${entry.timestamp}</p>
+          `;
+          analysisList.appendChild(div);
         });
       }
     });
   </script>
-</head>
-<body>
-  <header>
-    <div class="nav-left"><a href="index.html">Loca®</a></div>
-    <div class="nav-right">
-      <a href="analysis.html"><strong>Analysis</strong></a>
-      <a href="pricing.html">Pricing</a>
-      <a href="about.html">About Us</a>
-      <a href="profile.html">Profile</a>
-      <a href="login.html">Login</a>
-    </div>
-  </header>
-
-  <main>
-    <h1>Your Previous Analyses</h1>
-    <div class="analysis-list">
-      <div class="analysis-entry">
-        <h2>Musterstraße 1, 12345 Berlin</h2>
-        <p>Analyzed on: 2025-06-21</p>
-      </div>
-      <div class="analysis-entry">
-        <h2>Beispielweg 77, 54321 Hamburg</h2>
-        <p>Analyzed on: 2025-06-10</p>
-      </div>
-    </div>
-  </main>
-
- <footer>
-  <a href="legal.html">Contact / Imprint</a>
-  <a href="legal.html">Terms & Conditions</a>
-  <a href="legal.html">Privacy Policy</a>
-</footer>
-
 </body>
 </html>

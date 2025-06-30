@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Loca – Payment</title>
+  <title>Loca – Bezahlung</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
     * {
@@ -14,72 +14,70 @@
     }
 
     body {
-      background: white;
-      color: black;
+      background: #fafafa;
+      color: #111;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+    }
+
+    a {
+      text-decoration: none;
+      color: black;
     }
 
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 24px 64px;
+      padding: 24px 32px;
+      border-bottom: 1px solid #eee;
       font-weight: 600;
       font-size: 16px;
+      background: white;
     }
 
-    header a {
-      text-decoration: none;
-      color: black;
-      margin-left: 32px;
-    }
-
-    .nav-left {
+    .nav-left a {
       font-weight: 700;
-      font-size: 18px;
+      font-size: 20px;
+    }
+
+    .nav-right a {
+      margin-left: 32px;
     }
 
     main {
       flex: 1;
       padding: 48px 16px;
-      max-width: 700px;
-      margin: 0 auto;
+      max-width: 800px;
+      margin: auto;
+      text-align: center;
     }
 
     h1 {
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 700;
-      margin-bottom: 32px;
-      text-align: center;
+      margin-bottom: 40px;
     }
 
     .summary {
       margin-bottom: 48px;
-      border: 1px solid #ccc;
-      padding: 24px;
-      border-radius: 12px;
-      background-color: #f9f9f9;
+      background: white;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+      text-align: left;
     }
 
     .summary h2 {
       font-size: 20px;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
 
     .summary ul {
-      list-style: none;
-      padding-left: 0;
-      color: #555;
-    }
-
-    .summary ul li {
-      margin-bottom: 8px;
-    }
-
-    .payment-methods {
-      text-align: center;
+      padding-left: 20px;
+      color: #444;
+      line-height: 1.8;
     }
 
     .payment-methods h3 {
@@ -92,109 +90,149 @@
       color: white;
       border: none;
       padding: 12px 24px;
-      font-size: 16px;
-      border-radius: 20px;
+      font-size: 15px;
+      border-radius: 24px;
       cursor: pointer;
       margin: 8px;
+      font-weight: 600;
     }
 
     .payment-methods button:hover {
-      background: #333;
+      background: #222;
     }
 
     footer {
-      margin-top: 80px;
-      padding: 32px 64px;
-      background-color: #f9f9f9;
+      margin-top: auto;
+      padding: 32px;
+      background-color: #f0f0f0;
       font-size: 14px;
       color: #777;
       display: flex;
       justify-content: center;
       gap: 32px;
+      flex-wrap: wrap;
     }
 
     footer a {
       color: #777;
-      text-decoration: none;
     }
-  </style>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-      const loginLink = document.querySelector("a[href='login.html']");
-      const profileLink = document.querySelector("a[href='profile.html']");
-
-      if (isLoggedIn) {
-        if (loginLink) {
-          loginLink.textContent = "Logout";
-          loginLink.href = "#";
-          loginLink.addEventListener("click", (e) => {
-            e.preventDefault();
-            localStorage.removeItem("isLoggedIn");
-            window.location.href = "index.html";
-          });
-        }
-      } else {
-        if (profileLink) {
-          profileLink.addEventListener("click", (e) => {
-            e.preventDefault();
-            window.location.href = "login.html";
-          });
-        }
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
       }
 
-      document.querySelectorAll(".upgrade-button").forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-          if (!isLoggedIn) {
-            e.preventDefault();
-            window.location.href = "login.html";
-          }
-        });
-      });
-    });
-  </script>
+      .nav-right {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .summary {
+        text-align: left;
+      }
+    }
+  </style>
 </head>
 
 <body>
   <header>
     <div class="nav-left"><a href="index.html">Loca®</a></div>
     <div class="nav-right">
-      <a href="analysis.html"><strong>Analysis</strong></a>
-      <a href="pricing.html">Pricing</a>
-      <a href="about.html">About Us</a>
-      <a href="profile.html">Profile</a>
-      <a href="login.html" id="login-link">Login</a>
+      <a href="analysis.html">Analyse</a>
+      <a href="pricing.html">Preise</a>
+      <a href="about.html">Über Uns</a>
+      <a href="profile.html">Profil</a>
+      <a href="#" id="login-link">Login</a>
     </div>
   </header>
 
   <main>
-    <h1>Secure Checkout</h1>
+    <h1>Zahlung abschließen</h1>
 
     <div class="summary">
-      <h2>Selected Plan: Pro</h2>
-      <ul>
-        <li>Unlimited location analyses</li>
-        <li>Export as PDF & CSV</li>
-        <li>Priority customer support</li>
-        <li>API access included</li>
-        <li>€29/month</li>
+      <h2 id="planName">Ausgewählter Plan: </h2>
+      <ul id="planDetails">
+        <li>Unbegrenzte Standortanalysen</li>
+        <li>PDF & CSV Export</li>
+        <li>Priorisierter Kundensupport</li>
+        <li>API-Zugriff enthalten</li>
+        <li id="planPrice">19 € / Monat</li>
       </ul>
     </div>
 
     <div class="payment-methods">
-      <h3>Choose Payment Method</h3>
-      <button>Pay with PayPal</button>
-      <button>Credit Card</button>
-      <button>SEPA Transfer</button>
-      <button>Direct Bank Transfer</button>
+      <h3>Zahlungsmethode wählen</h3>
+      <button>PayPal</button>
+      <button>Kreditkarte</button>
+      <button>SEPA Lastschrift</button>
+      <button>Banküberweisung</button>
     </div>
   </main>
 
- <footer>
-  <a href="legal.html">Contact / Imprint</a>
-  <a href="legal.html">Terms & Conditions</a>
-  <a href="legal.html">Privacy Policy</a>
-</footer>
+  <footer>
+    <a href="legal.html">Impressum</a>
+    <a href="legal.html">Datenschutz</a>
+    <a href="legal.html">AGB</a>
+    <a href="contact.html">Kontakt</a>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const loginLink = document.getElementById("login-link");
+      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+      if (isLoggedIn) {
+        loginLink.textContent = "Logout";
+        loginLink.href = "#";
+        loginLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          localStorage.removeItem("isLoggedIn");
+          window.location.href = "index.html";
+        });
+      } else {
+        loginLink.textContent = "Login";
+        loginLink.href = "login.html";
+      }
+
+      // Plan-Details aus URL
+      const params = new URLSearchParams(window.location.search);
+      const plan = params.get("plan") || "pro";
+      const planNameEl = document.getElementById("planName");
+      const planPriceEl = document.getElementById("planPrice");
+      const planDetailsEl = document.getElementById("planDetails");
+
+      if (plan === "free") {
+        planNameEl.textContent = "Ausgewählter Plan: Free";
+        planDetailsEl.innerHTML = `
+          <li>3 Analysen pro Monat</li>
+          <li>Basisfunktionen</li>
+          <li>Keine Export-Optionen</li>
+          <li>E-Mail Support (2–3 Werktage)</li>
+          <li id="planPrice">0 € / Monat</li>
+        `;
+      } else if (plan === "standard") {
+        planNameEl.textContent = "Ausgewählter Plan: Standard";
+        planDetailsEl.innerHTML = `
+          <li>Unbegrenzte Standortanalysen</li>
+          <li>Export als PDF & CSV</li>
+          <li>Standard Support (24h)</li>
+          <li>API-Zugriff (beschränkt)</li>
+          <li id="planPrice">9 € / Monat</li>
+        `;
+      } else {
+        planNameEl.textContent = "Ausgewählter Plan: Pro";
+        planDetailsEl.innerHTML = `
+          <li>Unbegrenzte Standortanalysen</li>
+          <li>Export als PDF & CSV</li>
+          <li>Priorisierter Support</li>
+          <li>API-Zugriff inklusive</li>
+          <li id="planPrice">19 € / Monat</li>
+        `;
+      }
+    });
+  </script>
 </body>
 </html>

@@ -3,134 +3,183 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title><!-- ANPASSUNG: Firmen-/Projektname -->Loca – KI-gestützte Standortanalyse</title>
+  <title><!-- ANPASSUNG: Projektname -->Loca – Intelligente Standortanalyse</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
     body { background: #fff; color: #111; display: flex; flex-direction: column; min-height: 100vh; }
-    header { display: flex; justify-content: space-between; align-items: center; padding: 24px 64px; font-weight: 600; font-size: 16px; border-bottom: 1px solid #eee; }
-    header a { text-decoration: none; color: #111; margin-left: 32px; }
-    .nav-left { font-weight: 700; font-size: 20px; }
-    main { flex: 1; padding: 64px 16px 32px; max-width: 900px; margin: auto; text-align: center; }
-    h1 { font-size: 38px; font-weight: 700; margin-bottom: 16px; }
-    h2 { font-size: 20px; font-weight: 400; color: #666; margin-bottom: 40px; }
-    input, select {
-      padding: 14px 18px;
-      font-size: 16px;
-      width: 100%;
-      max-width: 400px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      background: white;
-    }
-    button {
-      background: #111;
-      color: white;
-      border: none;
-      padding: 14px 32px;
-      font-size: 16px;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: 0.2s ease;
-    }
-    button:disabled {
-      background: #999;
-      cursor: not-allowed;
-    }
-    button:hover:not(:disabled) { background: #333; }
 
-    .loader {
-      border: 4px solid #eee;
-      border-top: 4px solid #333;
-      border-radius: 50%;
-      width: 18px;
-      height: 18px;
-      animation: spin 1s linear infinite;
-      display: inline-block;
-      vertical-align: middle;
-      margin-right: 8px;
+    a { text-decoration: none; color: inherit; }
+
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px 64px; border-bottom: 1px solid #eee;
+      font-weight: 600; font-size: 16px;
     }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    header .logo { font-size: 20px; font-weight: 700; }
+    header nav a { margin-left: 32px; }
+
+    main { flex: 1; }
+
+    .hero {
+      text-align: center; padding: 96px 24px 64px;
+      max-width: 800px; margin: auto;
     }
 
-    .usps {
-      display: flex;
-      justify-content: center;
-      margin-top: 64px;
-      gap: 48px;
-      flex-wrap: wrap;
+    .hero h1 { font-size: 42px; font-weight: 700; margin-bottom: 16px; }
+    .hero p { font-size: 18px; color: #666; margin-bottom: 32px; }
+
+    .hero input, .hero select {
+      padding: 14px 16px; font-size: 16px; width: 280px;
+      border-radius: 10px; border: 1px solid #ccc; margin: 8px;
     }
-    .usps div {
-      text-align: center;
-      font-weight: 600;
-      color: #111;
-      flex: 1 1 200px;
-      max-width: 220px;
+
+    .hero button {
+      background: black; color: white; padding: 14px 24px;
+      border: none; border-radius: 30px; cursor: pointer;
+      font-size: 16px; margin-top: 16px;
     }
+
+    .section { padding: 72px 24px; text-align: center; max-width: 1000px; margin: auto; }
+
+    .section h2 { font-size: 28px; margin-bottom: 32px; }
+
+    .cards {
+      display: flex; justify-content: center; flex-wrap: wrap;
+      gap: 32px; margin-top: 24px;
+    }
+
+    .card {
+      background: #f9f9f9; padding: 32px; border-radius: 16px;
+      flex: 1 1 280px; max-width: 300px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .card-icon {
+      font-size: 32px; margin-bottom: 16px;
+    }
+
+    .pricing-cards {
+      display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .pricing {
+      background: #fff; border: 1px solid #ddd; border-radius: 12px;
+      padding: 32px; flex: 1 1 240px;
+    }
+
+    .pricing h3 { font-size: 20px; margin-bottom: 12px; }
+    .pricing p { font-size: 16px; margin-bottom: 8px; color: #555; }
+    .pricing .price { font-size: 24px; font-weight: bold; margin: 16px 0; }
+    .pricing button {
+      background: black; color: white; padding: 10px 20px;
+      border-radius: 20px; border: none; cursor: pointer;
+    }
+
     footer {
-      margin-top: 80px;
-      padding: 32px 64px;
-      background-color: #f9f9f9;
-      font-size: 14px;
-      color: #777;
-      display: flex;
-      justify-content: center;
-      gap: 32px;
+      margin-top: 80px; padding: 32px; background-color: #f0f0f0;
+      font-size: 14px; color: #777; display: flex; justify-content: center;
+      gap: 32px; flex-wrap: wrap;
     }
-    footer a { color: #777; text-decoration: none; }
+
+    @media(max-width: 768px) {
+      header { padding: 16px 32px; flex-direction: column; align-items: flex-start; }
+      header nav { margin-top: 12px; }
+      .hero input, .hero select { width: 90%; max-width: 90%; }
+    }
   </style>
 </head>
 <body>
+
   <header>
-    <div class="nav-left"><a href="index.html"><!-- ANPASSUNG: Firmenname -->Loca®</a></div>
-    <div class="nav-right">
+    <div class="logo"><!-- ANPASSUNG: Firmenname -->Loca®</div>
+    <nav>
       <a href="analysis.html">Analyse</a>
       <a href="pricing.html">Preise</a>
       <a href="about.html">Über Uns</a>
-      <a href="profile.html">Profil</a>
-      <a href="login.html" id="login-link">Login</a>
-    </div>
+      <a href="login.html">Login</a>
+    </nav>
   </header>
 
   <main>
-    <h1><!-- ANPASSUNG: Hauptüberschrift -->KI-gestützte Standortanalysen für Immobilien</h1>
-    <h2><!-- ANPASSUNG: Subline -->Erhalte datenbasierte Lageeinschätzungen in Sekunden</h2>
 
-    <input type="text" id="addressInput" placeholder="Adresse eingeben" />
-    <br />
-    <select id="projectSelect">
-      <option disabled selected>Projektart wählen</option>
-      <option value="Wohnraum">Wohnraum</option>
-      <option value="Büro">Büro</option>
-      <option value="Einzelhandel">Einzelhandel</option>
-      <option value="Industrie">Industrie</option>
-      <option value="Hotel">Hotel/Gastro</option>
-      <option value="Soziales">Soziales</option>
-    </select>
-    <br />
-    <button id="startBtn">Analyse starten</button>
+    <section class="hero">
+      <h1><!-- ANPASSUNG: Headline -->KI-gestützte Standortanalyse für Immobilien</h1>
+      <p><!-- ANPASSUNG: Subline -->Gib eine Adresse ein und erhalte sofort datenbasierte Insights.</p>
 
-    <div class="usps">
-      <div>💰 Spare Zeit & Geld</div>
-      <div>📈 Basierend auf echten Daten</div>
-      <div>⚡ Schneller als klassische Gutachten</div>
-    </div>
+      <input type="text" id="addressInput" placeholder="Adresse eingeben" />
+      <br />
+      <select id="projectSelect">
+        <option disabled selected>Projektart wählen</option>
+        <option value="Wohnraum">Wohnraum</option>
+        <option value="Büro">Büro</option>
+        <option value="Einzelhandel">Einzelhandel</option>
+        <option value="Industrie">Industrie</option>
+        <option value="Hotel">Hotel/Gastro</option>
+        <option value="Soziales">Soziales</option>
+      </select>
+      <br />
+      <button id="startBtn">Analyse starten</button>
+    </section>
+
+    <section class="section">
+      <h2>Warum Loca?</h2>
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon">🤖</div>
+          <strong>KI-Analyse</strong>
+          <p>Automatisierte Bewertung jeder Adresse mit GPT-4.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📊</div>
+          <strong>Datenbasiert</strong>
+          <p>Marktdaten und Kennzahlen für fundierte Entscheidungen.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <strong>Schnell & einfach</strong>
+          <p>Ergebnisse in Sekunden statt Tagen.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Preise</h2>
+      <div class="pricing-cards">
+        <div class="pricing">
+          <h3>Starter</h3>
+          <p>Für Einsteiger</p>
+          <div class="price">29 € / Monat</div>
+          <button>Jetzt starten</button>
+        </div>
+        <div class="pricing">
+          <h3>Pro</h3>
+          <p>Für Profis & Investoren</p>
+          <div class="price">99 € / Monat</div>
+          <button>Upgrade</button>
+        </div>
+        <div class="pricing">
+          <h3>Enterprise</h3>
+          <p>Individuelle Lösung</p>
+          <div class="price">Anfrage</div>
+          <button>Kontakt</button>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer>
-    <a href="legal.html">Kontakt & Impressum</a>
-    <a href="legal.html">AGB</a>
+    <a href="legal.html">Impressum</a>
     <a href="legal.html">Datenschutz</a>
+    <a href="legal.html">AGB</a>
+    <a href="contact.html">Kontakt</a>
   </footer>
 
   <script>
-    const btn = document.getElementById("startBtn");
-
-    btn.addEventListener("click", () => {
+    document.getElementById("startBtn").addEventListener("click", () => {
       const address = document.getElementById("addressInput").value.trim();
       const projectType = document.getElementById("projectSelect").value;
 
@@ -139,17 +188,9 @@
         return;
       }
 
-      // Zeige Ladeanimation
-      btn.disabled = true;
-      btn.innerHTML = '<span class="loader"></span>Analyse läuft...';
-
       const data = { address, projectType };
       localStorage.setItem("analysisData", JSON.stringify(data));
-
-      // Simuliere kleine Wartezeit für Ladeeffekt
-      setTimeout(() => {
-        window.location.href = "analysis.html";
-      }, 800);
+      window.location.href = "analysis.html";
     });
   </script>
 </body>

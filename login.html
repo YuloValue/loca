@@ -7,7 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
     * {
-      margin: 0; padding: 0; box-sizing: border-box;
+      margin: 0; padding: 0;
+      box-sizing: border-box;
       font-family: 'Outfit', sans-serif;
     }
 
@@ -19,22 +20,29 @@
       min-height: 100vh;
     }
 
-    a { text-decoration: none; color: inherit; }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 24px 64px;
-      border-bottom: 1px solid #eee;
       font-weight: 600;
       font-size: 16px;
+      border-bottom: 1px solid #eee;
     }
 
-    .logo { font-size: 20px; font-weight: 700; }
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+    }
 
-    header nav a {
-      margin-left: 32px;
+    nav {
+      display: flex;
+      gap: 32px;
     }
 
     main {
@@ -104,7 +112,7 @@
         padding: 16px 32px;
       }
 
-      header nav {
+      nav {
         margin-top: 12px;
         display: flex;
         flex-direction: column;
@@ -149,8 +157,7 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-      const loginLink = document.querySelector("a[href='login.html']");
-      const profileLink = document.querySelector("a[href='profile.html']");
+      const loginLink = document.getElementById("login-link");
 
       if (isLoggedIn && loginLink) {
         loginLink.textContent = "Logout";
@@ -162,6 +169,7 @@
         });
       }
 
+      const profileLink = document.querySelector("a[href='profile.html']");
       if (!isLoggedIn && profileLink) {
         profileLink.addEventListener("click", (e) => {
           e.preventDefault();

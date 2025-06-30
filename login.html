@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -7,9 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      margin: 0; padding: 0; box-sizing: border-box;
       font-family: 'Outfit', sans-serif;
     }
 
@@ -21,24 +19,22 @@
       min-height: 100vh;
     }
 
+    a { text-decoration: none; color: inherit; }
+
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 24px 64px;
+      border-bottom: 1px solid #eee;
       font-weight: 600;
       font-size: 16px;
     }
 
-    header a {
-      text-decoration: none;
-      color: black;
-      margin-left: 32px;
-    }
+    .logo { font-size: 20px; font-weight: 700; }
 
-    .nav-left {
-      font-weight: 700;
-      font-size: 18px;
+    header nav a {
+      margin-left: 32px;
     }
 
     main {
@@ -47,21 +43,29 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 48px 16px;
+      padding: 64px 16px;
       text-align: center;
     }
 
     h1 {
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 700;
       margin-bottom: 32px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+      width: 100%;
+      max-width: 400px;
     }
 
     input {
       padding: 12px 16px;
       font-size: 16px;
-      width: 300px;
-      margin-bottom: 16px;
+      width: 100%;
       border: 1px solid #ccc;
       border-radius: 8px;
     }
@@ -83,76 +87,88 @@
 
     footer {
       margin-top: 80px;
-      padding: 32px 64px;
-      background-color: #f9f9f9;
+      padding: 32px;
+      background-color: #f0f0f0;
       font-size: 14px;
       color: #777;
       display: flex;
       justify-content: center;
       gap: 32px;
+      flex-wrap: wrap;
     }
 
-    footer a {
-      color: #777;
-      text-decoration: none;
+    @media(max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px 32px;
+      }
+
+      header nav {
+        margin-top: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      form {
+        width: 90%;
+      }
     }
   </style>
 </head>
 <body>
+
   <header>
-    <div class="nav-left"><a href="index.html">Loca®</a></div>
-    <div class="nav-right">
-      <a href="analysis.html"><strong>Analysis</strong></a>
-      <a href="pricing.html">Pricing</a>
-      <a href="about.html">About Us</a>
-      <a href="profile.html">Profile</a>
+    <div class="logo"><a href="index.html">Loca®</a></div>
+    <nav>
+      <a href="analysis.html">Analyse</a>
+      <a href="pricing.html">Preise</a>
+      <a href="about.html">Über Uns</a>
+      <a href="profile.html">Profil</a>
       <a href="login.html" id="login-link">Login</a>
-    </div>
+    </nav>
   </header>
 
   <main>
     <h1>Login</h1>
-    <form id="login-form" style="margin-top: 32px; display: flex; flex-direction: column; align-items: center;">
-      <input type="email" id="email" placeholder="Email" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <button type="submit">Login</button>
+    <form id="login-form">
+      <input type="email" id="email" placeholder="Email-Adresse" required />
+      <input type="password" id="password" placeholder="Passwort" required />
+      <button type="submit">Einloggen</button>
     </form>
   </main>
 
-<footer>
-  <a href="legal.html">Contact / Imprint</a>
-  <a href="legal.html">Terms & Conditions</a>
-  <a href="legal.html">Privacy Policy</a>
-</footer>
+  <footer>
+    <a href="legal.html">Impressum</a>
+    <a href="legal.html">Datenschutz</a>
+    <a href="legal.html">AGB</a>
+    <a href="contact.html">Kontakt</a>
+  </footer>
 
-
-  <!-- Login Status + Navigation -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
       const loginLink = document.querySelector("a[href='login.html']");
       const profileLink = document.querySelector("a[href='profile.html']");
 
-      if (isLoggedIn) {
-        if (loginLink) {
-          loginLink.textContent = "Logout";
-          loginLink.href = "#";
-          loginLink.addEventListener("click", (e) => {
-            e.preventDefault();
-            localStorage.removeItem("isLoggedIn");
-            window.location.href = "index.html";
-          });
-        }
-      } else {
-        if (profileLink) {
-          profileLink.addEventListener("click", (e) => {
-            e.preventDefault();
-            window.location.href = "login.html";
-          });
-        }
+      if (isLoggedIn && loginLink) {
+        loginLink.textContent = "Logout";
+        loginLink.href = "#";
+        loginLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          localStorage.removeItem("isLoggedIn");
+          window.location.href = "index.html";
+        });
       }
 
-      // Upgrade-Buttons (wenn vorhanden)
+      if (!isLoggedIn && profileLink) {
+        profileLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          window.location.href = "login.html";
+        });
+      }
+
       document.querySelectorAll(".upgrade-button").forEach((btn) => {
         btn.addEventListener("click", (e) => {
           if (!isLoggedIn) {
@@ -162,10 +178,7 @@
         });
       });
     });
-  </script>
 
-  <!-- Login-Formular -->
-  <script>
     const loginForm = document.querySelector("#login-form");
     if (loginForm) {
       loginForm.addEventListener("submit", (e) => {
@@ -177,7 +190,7 @@
           localStorage.setItem("isLoggedIn", "true");
           window.location.href = "profile.html";
         } else {
-          alert("Please enter email and password.");
+          alert("Bitte E-Mail und Passwort eingeben.");
         }
       });
     }

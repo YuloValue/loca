@@ -3,13 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Loca – Registrierung</title>
+  <title>Loca – Registrieren</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      margin: 0; padding: 0; box-sizing: border-box;
       font-family: 'Outfit', sans-serif;
     }
 
@@ -21,15 +19,10 @@
       min-height: 100vh;
     }
 
-    a {
-      text-decoration: none;
-      color: black;
-    }
+    a { text-decoration: none; color: black; }
 
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: flex; justify-content: space-between; align-items: center;
       padding: 24px 32px;
       border-bottom: 1px solid #eee;
       font-weight: 600;
@@ -38,9 +31,7 @@
     }
 
     .nav-left a {
-      font-weight: 700;
-      font-size: 20px;
-      color: black;
+      font-weight: 700; font-size: 20px;
     }
 
     .nav-right a {
@@ -132,76 +123,76 @@
 </head>
 <body>
 
-  <header>
-    <div class="nav-left"><a href="index.html">Loca®</a></div>
-    <div class="nav-right">
-      <a href="analysis.html">Analyse</a>
-      <a href="pricing.html">Preise</a>
-      <a href="about.html">Über Uns</a>
-      <a href="profile.html">Profil</a>
-      <a href="login.html" id="login-link">Login</a>
-    </div>
-  </header>
+<header>
+  <div class="nav-left"><a href="index.html">Loca®</a></div>
+  <div class="nav-right">
+    <a href="analysis.html">Analyse</a>
+    <a href="pricing.html">Preise</a>
+    <a href="about.html">Über Uns</a>
+    <a href="profile.html">Profil</a>
+    <a href="login.html" id="login-link">Login</a>
+  </div>
+</header>
 
-  <main>
-    <h1>Kostenlos registrieren</h1>
-    <form id="signup-form">
-      <input type="text" id="firstname" placeholder="Vorname" required />
-      <input type="text" id="lastname" placeholder="Nachname" required />
-      <input type="text" id="company" placeholder="Firma" required />
-      <input type="email" id="email" placeholder="E-Mail-Adresse" required />
-      <input type="password" id="password" placeholder="Passwort" required />
-      <button type="submit">Registrieren</button>
-    </form>
-  </main>
+<main>
+  <h1>Registrieren</h1>
+  <form id="signup-form">
+    <input type="text" id="firstname" placeholder="Vorname" required />
+    <input type="text" id="lastname" placeholder="Nachname" required />
+    <input type="text" id="company" placeholder="Firma" required />
+    <input type="email" id="email" placeholder="Email-Adresse" required />
+    <input type="password" id="password" placeholder="Passwort" required />
+    <button type="submit">Konto erstellen</button>
+  </form>
+</main>
 
-  <footer>
-    <a href="legal.html">Impressum</a>
-    <a href="legal.html">Datenschutz</a>
-    <a href="legal.html">AGB</a>
-    <a href="contact.html">Kontakt</a>
-  </footer>
+<footer>
+  <a href="legal.html">Impressum</a>
+  <a href="legal.html">Datenschutz</a>
+  <a href="legal.html">AGB</a>
+  <a href="contact.html">Kontakt</a>
+</footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const supabase = supabase.createClient(
-      'https://uyccbwhpxjguoyoctpzn.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5Y2Nid2hweGpndW95b2N0cHpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEwMTM3MTYsImV4cCI6MjA2NjU4OTcxNn0.XkUVGvDIXTHc9z8yQznJyKkLHnQ4Q0R0XB6q42nr1OY'
-    );
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const supabase = supabase.createClient(
+    'https://uyccbwhpxjguoyoctpzn.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5Y2Nid2hweGpndW95b2N0cHpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEwMTM3MTYsImV4cCI6MjA2NjU4OTcxNn0.XkUVGvDIXTHc9z8yQznJyKkLHnQ4Q0R0XB6q42nr1OY'
+  );
 
-    document.getElementById("signup-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
+  document.querySelector("#signup-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      const firstname = document.getElementById("firstname").value;
-      const lastname = document.getElementById("lastname").value;
-      const company = document.getElementById("company").value;
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+    const firstname = document.querySelector("#firstname").value.trim();
+    const lastname = document.querySelector("#lastname").value.trim();
+    const company = document.querySelector("#company").value.trim();
+    const email = document.querySelector("#email").value.trim();
+    const password = document.querySelector("#password").value;
 
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password
-      });
-
-      if (error) {
-        alert("Fehler: " + error.message);
-        return;
-      }
-
-      // zusätzliche Infos in Tabelle 'profiles' speichern (optional)
-      const user_id = data.user?.id;
-      if (user_id) {
-        await supabase.from("profiles").insert([{
-          user_id,
-          firstname,
-          lastname,
-          company
-        }]);
-      }
-
-      alert("Registrierung erfolgreich. Bitte E-Mail bestätigen.");
-      window.location.href = "login.html";
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
     });
-  </script>
+
+    if (error) {
+      alert("Fehler: " + error.message);
+      return;
+    }
+
+    // Optional: Nutzerprofil in DB eintragen (users-Tabelle)
+    await supabase.from("users").insert([
+      {
+        id: data.user.id,
+        email: email,
+        name: firstname + " " + lastname,
+        plan: company,
+      }
+    ]);
+
+    alert("Konto erfolgreich erstellt!");
+    window.location.href = "profile.html";
+  });
+</script>
+
 </body>
 </html>

@@ -15,12 +15,10 @@
       display: flex; justify-content: space-between; align-items: center;
       padding: 24px 64px; border-bottom: 1px solid #eee;
       font-weight: 600; font-size: 16px;
-      position: relative;
     }
 
     header .logo { font-size: 20px; font-weight: 700; }
-    header nav { display: flex; gap: 32px; }
-    header .menu-toggle { display: none; cursor: pointer; font-size: 24px; }
+    header nav a { margin-left: 32px; }
 
     main { flex: 1; }
 
@@ -63,19 +61,22 @@
     }
 
     .cta-block {
-      background: #111; color: white; padding: 48px 24px;
+      background: #f0f0f0; padding: 48px 24px;
       border-radius: 16px; margin: 64px auto;
-      max-width: 700px; text-align: center;
+      max-width: 800px; text-align: center;
     }
 
     .cta-block h3 {
       font-size: 24px; margin-bottom: 16px;
     }
 
+    .cta-block p {
+      font-size: 16px; margin-bottom: 24px; color: #444;
+    }
+
     .cta-block button {
-      background: white; color: black; border: none;
-      padding: 12px 24px; font-size: 16px;
-      border-radius: 30px; cursor: pointer;
+      background: black; color: white; padding: 12px 24px;
+      font-size: 16px; border: none; border-radius: 24px; cursor: pointer;
     }
 
     .pricing-cards {
@@ -85,12 +86,12 @@
 
     .pricing {
       background: #fff; border: 1px solid #ddd; border-radius: 12px;
-      padding: 32px; flex: 1 1 240px; transition: transform 0.2s ease;
+      padding: 32px; flex: 1 1 240px;
+      transition: transform 0.2s ease;
     }
 
     .pricing:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transform: scale(1.03);
     }
 
     .pricing h3 { font-size: 20px; margin-bottom: 12px; }
@@ -107,31 +108,33 @@
       gap: 32px; flex-wrap: wrap;
     }
 
-    /* Mobile Menu */
     @media(max-width: 768px) {
-      header { padding: 16px 32px; flex-direction: column; align-items: flex-start; }
-      header .menu-toggle { display: block; margin-left: auto; }
-      header nav {
-        flex-direction: column;
-        width: 100%;
-        display: none;
-        margin-top: 12px;
+      header {
+        flex-direction: column; align-items: flex-start;
+        padding: 16px 32px;
       }
-      header nav.active { display: flex; }
+
+      header nav {
+        margin-top: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .hero input, .hero select { width: 90%; max-width: 90%; }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="logo">Loca®</div>
-    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <div class="logo"><a href="index.html">Loca®</a></div>
     <nav>
       <a href="analysis.html">Analyse</a>
       <a href="pricing.html">Preise</a>
       <a href="about.html">Über Uns</a>
       <a href="profile.html">Profil</a>
-      <a href="login.html">Login</a>
+      <a href="login.html" id="login-link">Login</a>
     </nav>
   </header>
 
@@ -178,8 +181,9 @@
     </section>
 
     <section class="cta-block">
-      <h3>Erstelle jetzt kostenlos dein Profil und starte deine erste Analyse</h3>
-      <button onclick="handleProfileClick()">Jetzt anmelden</button>
+      <h3>Erstelle jetzt ein kostenloses Profil</h3>
+      <p>Teste Loca kostenlos und lasse deine Standorte automatisch analysieren.</p>
+      <button onclick="handleProfileRedirect()">Jetzt anmelden</button>
     </section>
 
     <section class="section">
@@ -189,19 +193,19 @@
           <h3>Starter</h3>
           <p>Für Einsteiger</p>
           <div class="price">29 € / Monat</div>
-          <button onclick="handlePayment('starter')">Jetzt starten</button>
+          <button onclick="handlePricingRedirect()">Jetzt starten</button>
         </div>
         <div class="pricing">
           <h3>Pro</h3>
           <p>Für Profis & Investoren</p>
           <div class="price">99 € / Monat</div>
-          <button onclick="handlePayment('pro')">Upgrade</button>
+          <button onclick="handlePricingRedirect()">Upgrade</button>
         </div>
         <div class="pricing">
           <h3>Enterprise</h3>
           <p>Individuelle Lösung</p>
           <div class="price">Anfrage</div>
-          <button onclick="window.location.href='contact.html'">Kontakt</button>
+          <button onclick="location.href='contact.html'">Kontakt</button>
         </div>
       </div>
     </section>
@@ -216,10 +220,6 @@
   </footer>
 
   <script>
-    function toggleMenu() {
-      document.querySelector("header nav").classList.toggle("active");
-    }
-
     document.getElementById("startBtn").addEventListener("click", () => {
       const address = document.getElementById("addressInput").value.trim();
       const projectType = document.getElementById("projectSelect").value;
@@ -234,19 +234,14 @@
       window.location.href = "analysis.html";
     });
 
-    function handleProfileClick() {
+    function handlePricingRedirect() {
       const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-      window.location.href = isLoggedIn ? "profile.html" : "login.html";
+      window.location.href = isLoggedIn ? "payment.html" : "login.html";
     }
 
-    function handlePayment(plan) {
+    function handleProfileRedirect() {
       const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-      if (isLoggedIn) {
-        localStorage.setItem("selectedPlan", plan);
-        window.location.href = "payment.html";
-      } else {
-        window.location.href = "login.html";
-      }
+      window.location.href = isLoggedIn ? "profile.html" : "login.html";
     }
   </script>
 </body>
